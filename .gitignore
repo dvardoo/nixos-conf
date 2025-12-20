@@ -1,6 +1,3 @@
-# Ignore hardware
-hardware-configuration.nix
-
 # Ignore swap files
 *.swp
 *~
