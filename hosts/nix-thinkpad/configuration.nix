@@ -43,8 +43,6 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
-### CUSTOM CONFIG
-
   # Unlock disk GUI, also quiet systemd startup messages
   #boot = {
     # silence first boot output
@@ -71,15 +69,6 @@
   #services.bpftune.enable = true; # Enable the bpftune service
   #services.bpftune.package = pkgs.bpftune;  # Specify the bpftune package
 
-### END OF CUSTOM ###
-
-  # Enable the X11 windowing system.
-  #services.xserver.enable = true;
-
-  # Enable the Pantheon Desktop Environment.
-  #services.xserver.displayManager.lightdm.enable = true;
-  #services.xserver.desktopManager.pantheon.enable = true;
-  
   # hashcat / games
   hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
@@ -88,11 +77,6 @@
   # Enable COSMIC DE
   services.displayManager.cosmic-greeter.enable = true;
   services.desktopManager.cosmic.enable = true;
-
-  # Enable GNOME DE
-  #services.xserver.enable = true; 
-  #services.xserver.displayManager.gdm.enable = true;
-  #services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -122,9 +106,6 @@
     #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.dvardo = {
     isNormalUser = true;
@@ -143,7 +124,6 @@
     };
   };
 
-
   # Install firefox.
   programs.firefox.enable = true;
 
@@ -156,7 +136,6 @@
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
   #  nix-search-cli
-    # Stable packages
     git
     keepassxc
     authenticator
@@ -186,7 +165,6 @@
     #somekindofminecraft launcher ?
     #clamscan?
     virt-viewer
-    kde-gruvbox # For kde-connect
     scrcpy
     vscodium-fhs
    # Unstable packages
@@ -196,31 +174,6 @@
 
   programs.kdeconnect.enable = true;
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
 }
