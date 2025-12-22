@@ -4,7 +4,8 @@
 1. Clone the repo
 2. Enable flakes
 3. Create a config for the new host under `hosts/` with a basic config
-4. Rebuild 
+4. Copy/generate SSH-keys
+5. Rebuild 
 
 ## To do
 - [ ] Refactor config from configuration.nix
