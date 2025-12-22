@@ -15,7 +15,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-af259881-0856-45d7-acba-f5cfc410dc2b".device = "/dev/disk/by-uuid/af259881-0856-45d7-acba-f5cfc410dc2b";
+  #boot.initrd.luks.devices."luks-af259881-0856-45d7-acba-f5cfc410dc2b".device = "/dev/disk/by-uuid/af259881-0856-45d7-acba-f5cfc410dc2b"; #TEST
   networking.hostName = "nix-thinkpad"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -46,25 +46,25 @@
 ### CUSTOM CONFIG
 
   # Unlock disk GUI, also quiet systemd startup messages
-  boot = {
+  #boot = {
     # silence first boot output
-    consoleLogLevel = 3;
-    initrd.verbose = false;
-    initrd.systemd.enable = true;
-    kernelParams = [
-        "quiet"
-        "splash"
-        "intremap=on"
-        "boot.shell_on_fail"
-        "udev.log_priority=3"
-        "rd.systemd.show_status=auto"
-   ];
+  #  consoleLogLevel = 3;
+  #  initrd.verbose = false;
+  #  initrd.systemd.enable = true;
+  #  kernelParams = [
+  #      "quiet"
+  #      "splash"
+  #      "intremap=on"
+  #      "boot.shell_on_fail"
+  #      "udev.log_priority=3"
+  #      "rd.systemd.show_status=auto"
+  # ];
 
     # plymouth, showing after LUKS unlock
-    plymouth.enable = true;
-    plymouth.font = "${pkgs.hack-font}/share/fonts/truetype/Hack-Regular.ttf";
-    plymouth.logo = "${pkgs.nixos-icons}/share/icons/hicolor/128x128/apps/nix-snowflake.png";
-  };
+  #  plymouth.enable = true;
+  #  plymouth.font = "${pkgs.hack-font}/share/fonts/truetype/Hack-Regular.ttf";
+  #  plymouth.logo = "${pkgs.nixos-icons}/share/icons/hicolor/128x128/apps/nix-snowflake.png";
+  #};
 
   # Performance tuning
   boot.kernelPackages = pkgs.linuxPackages_zen; 
@@ -81,7 +81,7 @@
   #services.xserver.desktopManager.pantheon.enable = true;
   
   # hashcat / games
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
   ];
 
@@ -157,6 +157,7 @@
   #  wget
   #  nix-search-cli
     # Stable packages
+    git
     keepassxc
     authenticator
     veracrypt
