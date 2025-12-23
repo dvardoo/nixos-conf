@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-
+{ config, pkgs, inputs, ... }:
 {
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
@@ -29,17 +28,25 @@
   console.keyMap = "sv-latin1";
 
   # User environment packages
-  environment.systemPackages = [
+  environment.systemPackages = with pkgs; [
+    # B
     btop
-    lf
-    ncdu
-    git
+    # D
+    dnsutils
     dua
+    # E
     eza
     tree
+    # F
     fastfetch
+    # G
+    git
+    # L
+    lf
+    # N
+    ncdu
+    # P
     pfetch
-    dnsutils
     
   ];
 }
