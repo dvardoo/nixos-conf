@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../../modules/common.nix
       inputs.home-manager.nixosModules.default
     ];
 
@@ -24,24 +25,6 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Stockholm";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "sv_SE.UTF-8";
-    LC_IDENTIFICATION = "sv_SE.UTF-8";
-    LC_MEASUREMENT = "sv_SE.UTF-8";
-    LC_MONETARY = "sv_SE.UTF-8";
-    LC_NAME = "sv_SE.UTF-8";
-    LC_NUMERIC = "sv_SE.UTF-8";
-    LC_PAPER = "sv_SE.UTF-8";
-    LC_TELEPHONE = "sv_SE.UTF-8";
-    LC_TIME = "sv_SE.UTF-8";
-  };
 
   # Unlock disk GUI, also quiet systemd startup messages
   #boot = {
@@ -70,22 +53,13 @@
   #services.bpftune.package = pkgs.bpftune;  # Specify the bpftune package
 
   # hashcat / games
-  hardware.graphics.extraPackages = with pkgs; [
-    rocmPackages.clr.icd
-  ];
+  #hardware.graphics.extraPackages = with pkgs; [
+  #  rocmPackages.clr.icd
+  #];
 
   # Enable COSMIC DE
   services.displayManager.cosmic-greeter.enable = true;
   services.desktopManager.cosmic.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "se";
-    variant = "";
-  };
-
-  # Configure console keymap
-  console.keyMap = "sv-latin1";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -136,25 +110,16 @@
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
   #  nix-search-cli
-    git
     keepassxc
     authenticator
     veracrypt
     nextcloud-client
     wireguard-tools
-    btop
-    lf
-    ncdu
-    dua
-    tree
-    fastfetch
-    pfetch
     kitty
     alacritty
     tmux
     hashcat
     nmap
-    dnsutils
     #bpftune # Not working?
     #flameshot
     #signal check up
