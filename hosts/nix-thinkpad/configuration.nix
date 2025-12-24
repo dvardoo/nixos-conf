@@ -27,12 +27,6 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # hashcat / games
-  #hardware.graphics.extraPackages = with pkgs; [
-  #  rocmPackages.clr.icd
-  #];
-
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.dvardo = {
     isNormalUser = true;
