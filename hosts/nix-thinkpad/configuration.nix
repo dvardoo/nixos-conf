@@ -22,9 +22,6 @@
   networking.hostName = "nix-thinkpad"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes"];
-
   # Enable networking
   networking.networkmanager.enable = true;
 
