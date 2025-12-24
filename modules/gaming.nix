@@ -2,6 +2,8 @@
 {
   services.xserver.videoDrivers = ["amdgpu"];
 
+  hardware.xone.enable = true;
+
   hardware.graphics = {
      enable = true;
      enable32Bit = true;
