@@ -22,9 +22,6 @@
   networking.hostName = "nix-thinkpad"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Enable networking
-  networking.networkmanager.enable = true;
-
   home-manager = {
     # pass inputs to home-manager modules
     extraSpecialArgs = { inherit inputs; };
@@ -33,9 +30,5 @@
     };
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   system.stateVersion = "25.05"; # Did you read the comment?
-
 }
