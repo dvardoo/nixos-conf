@@ -51,38 +51,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  #  wget
-  #  nix-search-cli
-    keepassxc
-    authenticator
-    veracrypt
-    nextcloud-client
-    wireguard-tools
-    kitty
-    alacritty
-    tmux
-    hashcat
-    nmap
-    #bpftune # Not working?
-    #flameshot
-    #signal check up
-    discord
-    #steam needs service?
-    #lutris check up
-    #heroiclauncher check up
-    #somekindofminecraft launcher ?
-    #clamscan?
-    virt-viewer
-    scrcpy
-    vscodium-fhs
-   # Unstable packages
-   #unstable.packagename
-    #unstable.srccpy
-  ];
-
   programs.kdeconnect.enable = true;
 
   system.stateVersion = "25.05"; # Did you read the comment?
