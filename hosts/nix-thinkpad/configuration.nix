@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../../modules/user.nix
       ../../modules/common.nix
       ../../modules/workstations.nix
       inputs.home-manager.nixosModules.default
@@ -26,16 +27,6 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.dvardo = {
-    isNormalUser = true;
-    description = "dvardo";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
-  };
 
   home-manager = {
     # pass inputs to home-manager modules
