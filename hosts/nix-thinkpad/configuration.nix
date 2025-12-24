@@ -11,7 +11,7 @@
       ../../modules/user.nix
       ../../modules/common.nix
       ../../modules/workstations.nix
-      ../../gaming.nix
+      ../../modules/gaming.nix
       inputs.home-manager.nixosModules.default
     ];
 
