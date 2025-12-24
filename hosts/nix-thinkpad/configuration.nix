@@ -33,13 +33,8 @@
     };
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  programs.kdeconnect.enable = true;
 
   system.stateVersion = "25.05"; # Did you read the comment?
 
