@@ -16,8 +16,6 @@
   services.openssh.enable = true;
 
   # Bootloader.
-  #boot.loader.systemd-boot.enable = true;
-  #boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
@@ -29,10 +27,13 @@
   #    prefixLength = 24;
   #  }
   #];
+  #networking.defaultGateway = "";
+  #networking.nameservers = [""];
+ 
+  # Use DHCP
+  networking.interfaces.ens18.useDHCP = true;
 
-  #boot.initrd.luks.devices."luks-af259881-0856-45d7-acba-f5cfc410dc2b".device = "/dev/disk/by-uuid/af259881-0856-45d7-acba-f5cfc410dc2b"; #TEST
   networking.hostName = "nix-nix-server-test"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   home-manager = {
     # pass inputs to home-manager modules
