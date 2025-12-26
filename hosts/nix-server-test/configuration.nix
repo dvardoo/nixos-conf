@@ -10,10 +10,9 @@
       ./hardware-configuration.nix
       ../../modules/user.nix
       ../../modules/common.nix
+      ../../modules/ssh.nix
       inputs.home-manager.nixosModules.default
     ];
-
-  services.openssh.enable = true;
 
   # Bootloader.
   boot.loader.grub.enable = true;
