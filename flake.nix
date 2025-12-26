@@ -23,5 +23,17 @@
         #inputs.home-manager.nixosModules.nix-thinkpad
       ];
     };
+
+    nixosConfigurations.nix-server-test = nixpkgs.lib.nixosSystem {
+      specialArgs = {inherit inputs; };
+      modules = [
+        ./hosts/nix-server-test/configuration.nix
+        {
+          home-manager.users.dvardo = import ./hosts/nix-server-test/home.nix;
+        }
+        #inputs.home-manager.nixosModules.nix-server-test
+      ];
+    };
+
   };
 }
