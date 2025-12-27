@@ -11,6 +11,7 @@
       ../../modules/user.nix
       ../../modules/common.nix
       ../../modules/ssh.nix
+      ../../modules/qemu-guest-agent.nix
       #inputs.home-manager.nixosModules.default
     ];
 
