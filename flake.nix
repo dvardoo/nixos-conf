@@ -17,13 +17,14 @@
 
   };
 
-  outputs = { self, nixpkgs-unstable, nixpkgs-stable, ... }@inputs: {
-    # use "nixos", or your hostname as the name of the configuration
-    # it's a better practice than "default" shown in the video
+  outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager-unstable, home-manager-stable, ... }@inputs: {
+
+    # Laptop
     nixosConfigurations.nix-thinkpad = nixpkgs-unstable.lib.nixosSystem {
       specialArgs = {inherit inputs; };
       modules = [
         ./hosts/nix-thinkpad/configuration.nix
+        inputs.home-manager-unstable.nixosModules.default
         {
           home-manager.users.dvardo = import ./hosts/nix-thinkpad/home.nix;
         }
@@ -31,10 +32,12 @@
       ];
     };
 
+    # server-test
     nixosConfigurations.nix-server-test = nixpkgs-stable.lib.nixosSystem {
       specialArgs = {inherit inputs; };
       modules = [
         ./hosts/nix-server-test/configuration.nix
+        inputs.home-manager-stable.nixosModules.default
         {
           home-manager.users.dvardo = import ./hosts/nix-server-test/home.nix;
         }

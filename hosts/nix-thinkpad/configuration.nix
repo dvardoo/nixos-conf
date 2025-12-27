@@ -12,7 +12,7 @@
       ../../modules/common.nix
       ../../modules/workstations.nix
       ../../modules/gaming.nix
-      inputs.home-manager.nixosModules.default
+      #inputs.home-manager-unstable.nixosModules.default
     ];
 
   # Bootloader.

@@ -11,7 +11,7 @@
       ../../modules/user.nix
       ../../modules/common.nix
       ../../modules/ssh.nix
-      inputs.home-manager.nixosModules.default
+      #inputs.home-manager.nixosModules.default
     ];
 
   # Bootloader.
