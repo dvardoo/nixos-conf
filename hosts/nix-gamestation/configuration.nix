@@ -33,30 +33,51 @@
     };
   };
 
-
- jovian = {
-    steam = {
-      autoStart = true;
-      desktopSession = "gamescope-wayland";
-    };
-
-    power = {
-      enableGameMode = true;
-      preferGamePerformance = true;
-    };
-
-    ui = {
-      enableGameMode = true;
-      scaleFactor = 1.0;
+  # Wayland and Desktop Environment
+  services.xserver = {
+    enable = true;
+    displayManager = {
+      gdm = {
+        enable = true;
+        wayland = true;
+      };
+      defaultSession = "gamescope-wayland";
+      autoLogin = {
+        enable = true;
+        user = "deck";
+      };
     };
   };
 
+  # Jovian and Steam Configuration
+  jovian = {
+    steam = {
+      enable = true;
+      autoStart = true;
+      desktopSession = "gamescope-wayland";
+    };
+  };
+
+  # Steam and Gamescope
   programs.steam = {
     enable = true;
     gamescopeSession.enable = true;
   };
 
-  programs.gamescope.enable = true;
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
+  };
+
+  # Desktop Environment
+  services.desktopManager.plasma6.enable = true;
+
+  # Additional gaming packages
+  environment.systemPackages = with pkgs; [
+    steam
+    mangohud
+    gamemode
+  ];
 
   # Enable xbox controllers  
   hardware.xone.enable = true;
