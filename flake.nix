@@ -16,7 +16,7 @@
     };
 
     jovian-nixos = {
-      url = "github:Jovian-Systems/Jovian-NixOS";
+      url = "github:Jovian-Experiments/Jovian-NixOS";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
