@@ -15,9 +15,14 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
+    jovian-nixos = {
+      url = "github:Jovian-Systems/Jovian-NixOS";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
   };
 
-  outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager-unstable, home-manager-stable, ... }@inputs: {
+  outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager-unstable, home-manager-stable, jovian-nixos ... }@inputs: {
 
     # Laptop
     nixosConfigurations.nix-thinkpad = nixpkgs-unstable.lib.nixosSystem {
@@ -42,6 +47,20 @@
           home-manager.users.dvardo = import ./hosts/nix-server-test/home.nix;
         }
         #inputs.home-manager.nixosModules.nix-server-test
+      ];
+    };
+
+    # Game console
+    nixosConfigurations.nix-gamestation = nixpkgs-unstable.lib.nixosSystem {
+      specialArgs = { inherit inputs; };
+      modules = [
+        ./hosts/nix-gamestation/configuration.nix
+        # Include Jovian NixOS module
+        jovian-nixos.nixosModules.default
+        inputs.home-manager-unstable.nixosModules.default
+        {
+          home-manager.users.dvardo = import ./hosts/nix-gamestation/home.nix;
+        }
       ];
     };
 
