@@ -38,7 +38,7 @@
     steam = {
       autoStart = true;  # Automatically start Steam
       #enableGameMode = true;  # Enable Steam's game mode
-      showNotifications = true;  # Show Steam notifications
+      #showNotifications = true;  # Show Steam notifications
     };
 
     # Power and performance settings
