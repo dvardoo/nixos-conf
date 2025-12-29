@@ -37,7 +37,7 @@
     # Steam-specific settings
     steam = {
       autoStart = true;  # Automatically start Steam
-      enableGameMode = true;  # Enable Steam's game mode
+      #enableGameMode = true;  # Enable Steam's game mode
       showNotifications = true;  # Show Steam notifications
     };
 
