@@ -22,7 +22,7 @@
 
   };
 
-  outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager-unstable, home-manager-stable, jovian-nixos ... }@inputs: {
+  outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager-unstable, home-manager-stable, jovian-nixos, ... }@inputs: {
 
     # Laptop
     nixosConfigurations.nix-thinkpad = nixpkgs-unstable.lib.nixosSystem {
