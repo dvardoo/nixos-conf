@@ -61,6 +61,7 @@
       scaleFactor = 1.0;  # UI scaling
       enableGameScoped = true;  # Game-specific UI adjustments
     };
+  };
 
   # Enable xbox controllers  
   hardware.xone.enable = true;
