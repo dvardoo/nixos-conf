@@ -49,11 +49,11 @@
     };
 
     # Controller configuration
-    controller = {
-      enableSteamInput = true;  # Use Steam Input
-      enableGyro = true;  # Enable gyroscope support
-      enableHaptics = true;  # Enable controller haptics
-    };
+    #controller = {
+    #  enableSteamInput = true;  # Use Steam Input
+    #  enableGyro = true;  # Enable gyroscope support
+    #  enableHaptics = true;  # Enable controller haptics
+    #};
 
     # Display and UI settings
     ui = {
