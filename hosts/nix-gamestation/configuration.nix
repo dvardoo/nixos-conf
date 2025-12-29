@@ -42,11 +42,11 @@
     };
 
     # Power and performance settings
-    power = {
-      enableGameMode = true;  # Optimize power for gaming
-      preferGamePerformance = true;  # Prioritize game performance
-      batteryThresholdCharging = 80;  # Battery charge limit
-    };
+   # power = {
+   #   enableGameMode = true;  # Optimize power for gaming
+   #   preferGamePerformance = true;  # Prioritize game performance
+   #   batteryThresholdCharging = 80;  # Battery charge limit
+   # };
 
     # Controller configuration
     #controller = {
@@ -56,11 +56,11 @@
     #};
 
     # Display and UI settings
-    ui = {
-      enableGameMode = true;  # Optimize UI for gaming
-      scaleFactor = 1.0;  # UI scaling
-      enableGameScoped = true;  # Game-specific UI adjustments
-    };
+    #ui = {
+    #  enableGameMode = true;  # Optimize UI for gaming
+    #  scaleFactor = 1.0;  # UI scaling
+    #  enableGameScoped = true;  # Game-specific UI adjustments
+    #};
   };
 
   # Enable xbox controllers  
