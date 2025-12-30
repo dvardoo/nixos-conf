@@ -33,28 +33,20 @@
     };
   };
 
-  # Wayland and Desktop Environment
-  services.xserver = {
+  # Wayland and Gamescope Session Configuration
+  services.displayManager = {
     enable = true;
-    displayManager = {
-      gdm = {
-        enable = true;
-        wayland = true;
-      };
-      defaultSession = "gamescope-wayland";
-      autoLogin = {
-        enable = true;
-        user = "deck";
-      };
-    };
+    # Use Gamescope as the primary session
+    defaultSession = "gamescope-wayland";
   };
 
-  # Jovian and Steam Configuration
+  # Jovian Configuration
   jovian = {
     steam = {
       enable = true;
       autoStart = true;
       desktopSession = "gamescope-wayland";
+      user = "deck";
     };
   };
 
@@ -66,20 +58,13 @@
 
   programs.gamescope = {
     enable = true;
-    capSysNice = true;
+    #capSysNice = true;
   };
 
-  # Desktop Environment
-  services.desktopManager.plasma6.enable = true;
+  # Auto-login configuration
+  services.getty.autologinUser = "dvardo";
 
-  # Additional gaming packages
-  environment.systemPackages = with pkgs; [
-    steam
-    mangohud
-    gamemode
-  ];
-
-  # Enable xbox controllers  
+  # Enable xbox controllers
   hardware.xone.enable = true;
 
   system.stateVersion = "25.05"; # Did you read the comment?
