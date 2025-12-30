@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../../modules/user.nix
+      ../../modules/shell.nix
       ../../modules/common.nix
       ../../modules/ssh.nix
       ../../modules/qemu-guest-agent.nix
