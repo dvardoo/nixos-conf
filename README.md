@@ -10,7 +10,7 @@
 5. In the repo, add the host in the `flake.nix` (just copy the part from other host and change hostname)
 6. Generate SSH keys and add the public key to `ssh.nix` if needed for public key authentication
 7. Commit and push changes
-8. On the new machine, pull the repo and from that directory run:
+8. On the new machine, repo the repo with `git clone https://github.com/dvardoo/nixos-conf` and from that directory run:
 ```bash
 sudo nixos-rebuild switch --flake .#$newhostname
 ```
@@ -21,6 +21,8 @@ sudo nixos-rebuild switch --flake .#$newhostname
 - [x] Refactor config from configuration.nix
 - [x] Add another host
 - [ ] Add jovian-NixOS
+- [ ] Add a managed, easy host for friends/family
+- [ ] Fix autoupgrade and auto collect garbage
 - [ ] Explore home-manager
 - [ ] Configure Cosmic DE
 - [ ] Secrets management
