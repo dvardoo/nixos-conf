@@ -47,7 +47,7 @@
       enable = true;
       autoStart = true;
       desktopSession = "gamescope-wayland";
-      user = "deck";
+      user = "dvardo";
     };
   };
 
