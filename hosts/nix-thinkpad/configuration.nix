@@ -21,7 +21,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   #boot.initrd.luks.devices."luks-af259881-0856-45d7-acba-f5cfc410dc2b".device = "/dev/disk/by-uuid/af259881-0856-45d7-acba-f5cfc410dc2b"; #TEST
-  networking.hostName = "nix-thinkpad"; # Define your hostname.
+  networking.hostName = "thinkpad"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   home-manager = {

@@ -34,7 +34,7 @@
   # Use DHCP
   networking.interfaces.ens18.useDHCP = true;
 
-  networking.hostName = "nix-nix-server-test"; # Define your hostname.
+  networking.hostName = "server-test"; # Define your hostname.
 
   home-manager = {
     # pass inputs to home-manager modules
