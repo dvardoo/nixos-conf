@@ -14,6 +14,7 @@
       #../../modules/workstations.nix
       #../../modules/gaming.nix
       ../../modules/ssh.nix
+      ../../modules/gc.nix
       ../../modules/qemu-guest-agent.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];

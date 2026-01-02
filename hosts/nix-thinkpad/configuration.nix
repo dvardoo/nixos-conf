@@ -13,6 +13,7 @@
       ../../modules/common.nix
       ../../modules/workstations.nix
       ../../modules/gaming.nix
+      ../../modules/gc.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 

@@ -13,6 +13,7 @@
       ../../modules/common.nix
       ../../modules/ssh.nix
       ../../modules/qemu-guest-agent.nix
+      ../../modules/gc.nix
       #inputs.home-manager.nixosModules.default
     ];
 
