@@ -1,6 +1,6 @@
 { config, pkgs, inputs, ... }:
 {
-  # hashcat / games
+  # For hashcat / LLM
   hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
   ];

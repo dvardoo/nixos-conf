@@ -2,8 +2,6 @@
 {
   services.xserver.videoDrivers = ["amdgpu"];
 
-  #hardware.xone.enable = true;
-
   hardware.graphics = {
      enable = true;
      enable32Bit = true;
@@ -21,8 +19,9 @@
     lutris
   ];
  
-  # Temp xone fix: https://github.com/NixOS/nixpkgs/pull/472163
+  # Xbox controllers
   hardware.xone.enable = true;
+  # Temp xone fix: https://github.com/NixOS/nixpkgs/pull/472163
   nixpkgs.overlays = [
     (final: prev: {
       xow_dongle-firmware = prev.xow_dongle-firmware.overrideAttrs (old: {
