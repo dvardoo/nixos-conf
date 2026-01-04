@@ -20,9 +20,12 @@ sudo nixos-rebuild switch --flake .#$newhostname
 
 - [x] Refactor config from configuration.nix
 - [x] Add another host
-- [ ] Add jovian-NixOS
+- [x] Add jovian-NixOS
+- [ ] Add a server host with some services
+- [ ] Migrate services from old hosts
 - [ ] Add a managed, easy host for friends/family
-- [ ] Fix autoupgrade and auto collect garbage
+- [ ] Fix autoupgrade 
+- [x] Fix auto collect garbage
 - [ ] Explore home-manager
 - [ ] Configure Cosmic DE
 - [ ] Secrets management
