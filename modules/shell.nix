@@ -10,12 +10,15 @@
       plugins = [
         "git"
         #"docker"
+        
       ];
       theme = "juanghurtado"; 
     };
 
     shellAliases = {
-      ll = "eza -l --icons";
+      ll = "eza -l --icons --group-directories-first";
+      la = "eza -la --icons --group-directories-first";
+      tree = "eza --icons --tree";
       update = "cd ~/nixos-conf/ && git pull && sudo nixos-rebuild switch --flake .#$(hostname)";
     };
 
