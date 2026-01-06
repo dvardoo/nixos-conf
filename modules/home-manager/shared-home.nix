@@ -1,6 +1,11 @@
 { config, pkgs, inputs, ... }:
 
 {
+  imports = [
+    # Import the Git module
+    ./git.nix
+  ];
+
   home = {
     username = "dvardo";
     homeDirectory = "/home/dvardo";
@@ -23,5 +28,4 @@
     # Common program configurations
   };
 
-  # Other common home-manager configurations
 }
