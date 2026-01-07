@@ -2,8 +2,8 @@
 
 {
   imports = [
-    # Import the Git module
     ./git.nix
+    ./fonts.nix
   ];
 
   home = {
