@@ -5,11 +5,11 @@
     ../../modules/home-manager/shared-home.nix  
   ];
 
-  home.packages = config.home.packages ++ [
-    pkgs.hello
+  home.packages = [
+    # pkgs.hello
   ];
 
-  home.sessionVariables = config.home.sessionVariables // {
+  home.sessionVariables = {
     # EDITOR = "emacs";
   };
 }
