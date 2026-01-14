@@ -33,7 +33,6 @@
         {
           home-manager.users.dvardo = import ./hosts/nix-thinkpad/home.nix;
         }
-        #inputs.home-manager.nixosModules.nix-thinkpad
       ];
     };
 
@@ -46,7 +45,6 @@
         {
           home-manager.users.dvardo = import ./hosts/nix-server-test/home.nix;
         }
-        #inputs.home-manager.nixosModules.nix-server-test
       ];
     };
 

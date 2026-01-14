@@ -22,10 +22,6 @@
       # EDITOR = "nvim";
     };
   };
-
-  programs = {
-    home-manager.enable = true;
-    # Common program configurations
-  };
-
+  
+  programs.home-manager.enable = true;
 }
