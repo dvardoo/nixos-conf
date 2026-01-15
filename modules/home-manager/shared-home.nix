@@ -11,10 +11,9 @@
     homeDirectory = "/home/dvardo";
     stateVersion = "25.05";
 
-    packages = [
-      # Common packages for all hosts
-      # pkgs.some-common-package
-      pkgs.hello
+    packages = with pkgs; [
+      # User packages for all hosts
+      hello
     ];
 
     sessionVariables = {

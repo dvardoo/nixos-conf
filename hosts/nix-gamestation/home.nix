@@ -5,8 +5,8 @@
     ../../modules/home-manager/shared-home.nix  
   ];
 
-  home.packages = [
-    # pkgs.hello
+  home.packages = with pkgs; [
+    # hello
   ];
 
   home.sessionVariables = {
