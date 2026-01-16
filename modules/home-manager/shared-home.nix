@@ -6,6 +6,8 @@
     ./fonts.nix
   ];
 
+  nixpkgs.config.allowUnfree = true;
+
   home = {
     username = "dvardo";
     homeDirectory = "/home/dvardo";
@@ -13,7 +15,34 @@
 
     packages = with pkgs; [
       # User packages for all hosts
-      hello
+      # Security
+      keepassxc
+      authenticator
+      veracrypt
+
+      # Tools
+      hashcat
+      nmap
+      bat
+      virt-viewer
+      scrcpy
+      vscodium-fhs
+      alacritty
+      nextcloud-client
+      wireguard-tools
+      kitty
+      tmux
+      #flameshot
+
+      # Communication
+      discord
+      #signal check up
+
+      # Gaming
+      #steam needs service?
+      #lutris check up
+      #heroiclauncher check up
+      #somekindofminecraft launcher ?
     ];
 
     sessionVariables = {

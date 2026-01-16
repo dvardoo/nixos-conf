@@ -7,7 +7,7 @@
 
   home.packages = with pkgs; [
     # hello
-    bat
+    hello
   ];
 
   home.sessionVariables = {

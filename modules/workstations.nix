@@ -26,7 +26,7 @@
   #services.bpftune.enable = true; # Enable the bpftune service
   #services.bpftune.package = pkgs.bpftune;  # Specify the bpftune package
 
-# Enable COSMIC DE
+  # Enable COSMIC DE
   services.displayManager.cosmic-greeter.enable = true;
   services.desktopManager.cosmic.enable = true;
 
@@ -58,30 +58,8 @@
   environment.systemPackages = with pkgs; [
   #  wget
   #  nix-search-cli
-    alacritty
-    keepassxc
-    authenticator
-    veracrypt
-    nextcloud-client
-    wireguard-tools
-    kitty
-    tmux
-    hashcat
-    nmap
     #bpftune # Not working?
-    #flameshot
-    #signal check up
-    discord
-    #steam needs service?
-    #lutris check up
-    #heroiclauncher check up
-    #somekindofminecraft launcher ?
     #clamscan?
-    virt-viewer
-    scrcpy
-    vscodium-fhs
-   # Unstable packages
-   #unstable.packagename
-    #unstable.srccpy
+
   ];
 }
