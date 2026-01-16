@@ -32,11 +32,11 @@
       wireguard-tools
       kitty
       tmux
-      #flameshot
+      flameshot
 
       # Communication
       discord
-      #signal check up
+      signal-desktop
 
       # Gaming
       #steam needs service?
