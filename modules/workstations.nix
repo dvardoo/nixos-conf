@@ -2,7 +2,7 @@
 {
   # Unlock disk GUI, also quiet systemd startup messages
   #boot = {
-    # silence first boot output
+  # silence first boot output
   #  consoleLogLevel = 3;
   #  initrd.verbose = false;
   #  initrd.systemd.enable = true;
@@ -56,8 +56,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  wget
-  #  nix-search-cli
+    #nix-search-cli
     #bpftune # Not working?
     #clamscan?
 

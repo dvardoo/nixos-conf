@@ -24,6 +24,8 @@
       hashcat
       nmap
       bat
+      wget
+      nix-search-cli
       virt-viewer
       scrcpy
       vscodium-fhs
