@@ -35,6 +35,7 @@
       kitty
       tmux
       flameshot
+      obsidian
 
       # Communication
       discord
