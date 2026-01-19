@@ -4,7 +4,8 @@
   imports = [
     ./git.nix
     ./fonts.nix
-    ./keepassxc.nix
+    #./keepassxc.nix
+    ./vscodium-fhs.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -17,7 +18,7 @@
     packages = with pkgs; [
       # User packages for all hosts
       # Security
-      #keepassxc
+      keepassxc
       authenticator
       veracrypt
 
@@ -29,7 +30,7 @@
       nix-search-cli
       virt-viewer
       scrcpy
-      vscodium-fhs
+      #vscodium-fhs
       alacritty
       nextcloud-client
       wireguard-tools
