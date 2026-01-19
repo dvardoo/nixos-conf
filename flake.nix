@@ -20,9 +20,14 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
   };
 
-  outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager-unstable, home-manager-stable, jovian-nixos, ... }@inputs: {
+  outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager-unstable, home-manager-stable, jovian-nixos, stylix, ... }@inputs: {
 
     # Laptop
     nixosConfigurations.nix-thinkpad = nixpkgs-unstable.lib.nixosSystem {
@@ -30,6 +35,7 @@
       modules = [
         ./hosts/nix-thinkpad/configuration.nix
         inputs.home-manager-unstable.nixosModules.default
+        stylix.nixosModules.stylix
         {
           home-manager.users.dvardo = import ./hosts/nix-thinkpad/home.nix;
         }

@@ -11,6 +11,7 @@
       ../../modules/gaming.nix
       ../../modules/gc.nix
       ../../modules/amdrocm.nix
+      ../../modules/stylix.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 
@@ -25,6 +26,9 @@
   home-manager = {
     # pass inputs to home-manager modules
     extraSpecialArgs = { inherit inputs; };
+    #useUserPackages = true;
+    #useGlobalPkgs = true;
+    backupFileExtension = "hm-backup";
     users = {
       "dvardo" = import ./home.nix;
     };

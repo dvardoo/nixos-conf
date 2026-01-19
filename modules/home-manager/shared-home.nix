@@ -6,6 +6,7 @@
     ./fonts.nix
     #./keepassxc.nix
     ./vscodium-fhs.nix
+    ../stylix.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
