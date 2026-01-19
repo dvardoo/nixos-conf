@@ -4,6 +4,7 @@
   imports = [
     ./git.nix
     ./fonts.nix
+    ./keepassxc.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -16,7 +17,7 @@
     packages = with pkgs; [
       # User packages for all hosts
       # Security
-      keepassxc
+      #keepassxc
       authenticator
       veracrypt
 
