@@ -8,6 +8,7 @@
     #./keepassxc-wrapped.nix
     ./vscodium-fhs.nix
     ../stylix.nix
+    ./alacritty.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -33,7 +34,7 @@
       virt-viewer
       scrcpy
       #vscodium-fhs
-      alacritty
+      #alacritty
       nextcloud-client
       wireguard-tools
       kitty
