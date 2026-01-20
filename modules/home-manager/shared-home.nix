@@ -4,7 +4,8 @@
   imports = [
     ./git.nix
     ./fonts.nix
-    #./keepassxc.nix
+    ./keepassxc.nix
+    #./keepassxc-wrapped.nix
     ./vscodium-fhs.nix
     ../stylix.nix
   ];
@@ -19,7 +20,7 @@
     packages = with pkgs; [
       # User packages for all hosts
       # Security
-      keepassxc
+      #keepassxc
       authenticator
       veracrypt
 
