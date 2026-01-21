@@ -21,6 +21,15 @@
           blinking = "Off"; # "Always", "Off", "On"
         };
       };
+
+      mouse = {
+        bindings = [
+          {
+            mouse = "Right";
+            action = "Copy";
+          }
+        ];
+      };
     };
   };
 }
