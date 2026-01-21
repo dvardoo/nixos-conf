@@ -7,7 +7,7 @@
     ./keepassxc.nix
     #./keepassxc-wrapped.nix
     ./vscodium-fhs.nix
-    ../stylix.nix
+    #../stylix.nix
     ./alacritty.nix
   ];
 
