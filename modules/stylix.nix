@@ -7,6 +7,8 @@
     #base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
     #base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-material-dark-medium.yaml";
+    #base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest-dark-medium.yaml";
+
     
     # Use the override option for color customization
     #override = {
