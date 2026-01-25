@@ -9,6 +9,7 @@
     ./vscodium-fhs.nix
     #../stylix.nix
     ./alacritty.nix
+    ./obsidian.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -40,7 +41,7 @@
       kitty
       tmux
       flameshot
-      obsidian
+      #obsidian
 
       # Communication
       discord
