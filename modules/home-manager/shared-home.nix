@@ -4,6 +4,7 @@
   imports = [
     ./git.nix
     ./fonts.nix
+    ./browsers.nix
     ./keepassxc.nix
     #./keepassxc-wrapped.nix
     ./vscodium-fhs.nix
