@@ -11,14 +11,13 @@
       #../../modules/gaming.nix
       ../../modules/ssh.nix
       ../../modules/gc.nix
-      ../../modules/qemu-guest-agent.nix
+      ../../modules/amdrocm.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "gamestation"; # Define your hostname.
 
