@@ -62,6 +62,7 @@
         # Include Jovian NixOS module
         jovian-nixos.nixosModules.default
         inputs.home-manager-unstable.nixosModules.default
+        stylix.nixosModules.stylix
         {
           home-manager.users.dvardo = import ./hosts/nix-gamestation/home.nix;
         }

@@ -2,8 +2,14 @@
 
 {
   imports = [
-    ../../modules/home-manager/shared-home.nix  
+    #../../modules/home-manager/shared-home.nix  
   ];
+
+  home = {
+    username = "dvardo";
+    homeDirectory = "/home/dvardo";
+    stateVersion = "25.05";
+  };
 
   home.packages = with pkgs; [
     # hello

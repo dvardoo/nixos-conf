@@ -11,7 +11,7 @@
       #../../modules/gaming.nix
       ../../modules/ssh.nix
       ../../modules/gc.nix
-      ../../modules/amdrocm.nix
+      ../../modules/stylix.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 
