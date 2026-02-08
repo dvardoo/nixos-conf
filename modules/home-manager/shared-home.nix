@@ -26,6 +26,7 @@
       #keepassxc
       authenticator
       veracrypt
+      yubikey-manager
 
       # Tools
       hashcat
@@ -42,6 +43,10 @@
       kitty
       tmux
       flameshot
+      vlc
+      onionshare-gui
+      drawio
+      magic-wormhole
       #obsidian
 
       # Communication
@@ -53,6 +58,10 @@
       #lutris check up
       #heroiclauncher check up
       #somekindofminecraft launcher ?
+
+      # Entertainment
+      jellyfin-desktop
+      finamp
     ];
 
     sessionVariables = {
