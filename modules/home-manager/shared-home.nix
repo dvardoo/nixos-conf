@@ -52,6 +52,7 @@
       # Communication
       discord
       signal-desktop
+      teams-for-linux
 
       # Gaming
       #steam needs service?
