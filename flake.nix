@@ -42,6 +42,19 @@
       ];
     };
 
+    # Workstation
+    nixosConfigurations.nix-workstation = nixpkgs-unstable.lib.nixosSystem {
+      specialArgs = {inherit inputs; };
+      modules = [
+        ./hosts/nix-workstation/configuration.nix
+        inputs.home-manager-unstable.nixosModules.default
+        stylix.nixosModules.stylix
+        {
+          home-manager.users.dvardo = import ./hosts/nix-workstation/home.nix;
+        }
+      ];
+    };
+
     # server-test
     nixosConfigurations.nix-server-test = nixpkgs-stable.lib.nixosSystem {
       specialArgs = {inherit inputs; };
