@@ -13,6 +13,7 @@
       ../../modules/amdrocm.nix
       ../../modules/llm.nix
       ../../modules/stylix.nix
+      ../../modules/overlays.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 
