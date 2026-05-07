@@ -34,13 +34,13 @@
 
   networking.hostName = "server-test"; # Define your hostname.
 
-  home-manager = {
+  #home-manager = {
     # pass inputs to home-manager modules
-    extraSpecialArgs = { inherit inputs; };
-    users = {
-      "dvardo" = import ./home.nix;
-    };
-  };
+    #extraSpecialArgs = { inherit inputs; };
+    #users = {
+    #  "dvardo" = import ./home.nix;
+    #};
+  #};
 
   system.stateVersion = "25.05"; # Did you read the comment?
 }

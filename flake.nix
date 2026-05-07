@@ -60,10 +60,10 @@
       specialArgs = {inherit inputs; };
       modules = [
         ./hosts/server-test/configuration.nix
-        inputs.home-manager-stable.nixosModules.default
-        {
-          home-manager.users.dvardo = import ./hosts/server-test/home.nix;
-        }
+        #inputs.home-manager-stable.nixosModules.default
+        #{
+        #  home-manager.users.dvardo = import ./hosts/server-test/home.nix;
+        #}
       ];
     };
 
