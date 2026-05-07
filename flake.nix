@@ -30,54 +30,54 @@
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager-unstable, home-manager-stable, jovian-nixos, stylix, ... }@inputs: {
 
     # Laptop
-    nixosConfigurations.nix-thinkpad = nixpkgs-unstable.lib.nixosSystem {
+    nixosConfigurations.thinkpad = nixpkgs-unstable.lib.nixosSystem {
       specialArgs = {inherit inputs; };
       modules = [
-        ./hosts/nix-thinkpad/configuration.nix
+        ./hosts/thinkpad/configuration.nix
         inputs.home-manager-unstable.nixosModules.default
         stylix.nixosModules.stylix
         {
-          home-manager.users.dvardo = import ./hosts/nix-thinkpad/home.nix;
+          home-manager.users.dvardo = import ./hosts/thinkpad/home.nix;
         }
       ];
     };
 
     # Workstation
-    nixosConfigurations.nix-workstation = nixpkgs-unstable.lib.nixosSystem {
+    nixosConfigurations.workstation = nixpkgs-unstable.lib.nixosSystem {
       specialArgs = {inherit inputs; };
       modules = [
-        ./hosts/nix-workstation/configuration.nix
+        ./hosts/workstation/configuration.nix
         inputs.home-manager-unstable.nixosModules.default
         stylix.nixosModules.stylix
         {
-          home-manager.users.dvardo = import ./hosts/nix-workstation/home.nix;
+          home-manager.users.dvardo = import ./hosts/workstation/home.nix;
         }
       ];
     };
 
     # server-test
-    nixosConfigurations.nix-server-test = nixpkgs-stable.lib.nixosSystem {
+    nixosConfigurations.server-test = nixpkgs-stable.lib.nixosSystem {
       specialArgs = {inherit inputs; };
       modules = [
-        ./hosts/nix-server-test/configuration.nix
+        ./hosts/server-test/configuration.nix
         inputs.home-manager-stable.nixosModules.default
         {
-          home-manager.users.dvardo = import ./hosts/nix-server-test/home.nix;
+          home-manager.users.dvardo = import ./hosts/server-test/home.nix;
         }
       ];
     };
 
     # Game console
-    nixosConfigurations.nix-gamestation = nixpkgs-unstable.lib.nixosSystem {
+    nixosConfigurations.gamestation = nixpkgs-unstable.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
-        ./hosts/nix-gamestation/configuration.nix
+        ./hosts/gamestation/configuration.nix
         # Include Jovian NixOS module
         jovian-nixos.nixosModules.default
         inputs.home-manager-unstable.nixosModules.default
         stylix.nixosModules.stylix
         {
-          home-manager.users.dvardo = import ./hosts/nix-gamestation/home.nix;
+          home-manager.users.dvardo = import ./hosts/gamestation/home.nix;
         }
       ];
     };
