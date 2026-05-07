@@ -3,16 +3,16 @@
 {
   imports =
     [ 
-      ../../modules/user.nix
-      ../../modules/shell.nix
-      ../../modules/common.nix
-      ../../modules/workstations.nix
-      ../../modules/gaming.nix
-      ../../modules/gc.nix
-      ../../modules/amdrocm.nix
-      ../../modules/llm.nix
-      ../../modules/stylix.nix
-      ../../modules/overlays.nix
+      ./user.nix
+      ./shell.nix
+      ./common.nix
+      ./workstations.nix
+      ./gaming.nix
+      ./gc.nix
+      ./amdrocm.nix
+      ./llm.nix
+      ./stylix.nix
+      ./overlays.nix
     ];
 
 }

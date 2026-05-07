@@ -5,16 +5,6 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../../modules/default.nix
-      #../../modules/user.nix
-      #../../modules/shell.nix
-      #../../modules/common.nix
-      #../../modules/workstations.nix
-      #../../modules/gaming.nix
-      #../../modules/gc.nix
-      #../../modules/amdrocm.nix
-      #../../modules/llm.nix
-      #../../modules/stylix.nix
-      #../../modules/overlays.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 
