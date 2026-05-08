@@ -6,6 +6,7 @@
       ./user.nix
       ./shell.nix
       ./cosmic.nix
+      ./boot.nix
       ./common.nix
       ./workstations.nix
       ./performance.nix
