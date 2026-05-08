@@ -4,7 +4,7 @@
   programs.zed-editor = {
     enable = true;
     extensions = [ "nix" ];
-    #userSettings = {
+    userSettings = {
     #  theme = {
     #    mode = "system";
     #    dark = "One Dark";

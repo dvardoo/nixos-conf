@@ -11,6 +11,7 @@
     #../stylix.nix
     ./alacritty.nix
     ./obsidian.nix
+    ./zed-editor.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
