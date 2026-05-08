@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, ... }:
 {
   # For hashcat / LLM
   hardware.graphics.extraPackages = with pkgs; [

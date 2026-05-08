@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, ... }:
 {
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes"];
@@ -56,6 +56,6 @@
     ncdu
     # P
     pfetch
-    
+
   ];
 }

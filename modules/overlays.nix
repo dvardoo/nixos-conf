@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ ... }:
 {
   # Until this is resolved: https://github.com/nixos/nixpkgs/issues/513245
   nixpkgs.overlays = [

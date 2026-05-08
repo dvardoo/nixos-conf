@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, ... }:
 {
   services.xserver.videoDrivers = ["amdgpu"];
 
@@ -18,7 +18,7 @@
     heroic
     lutris
   ];
- 
+
   # Xbox controllers
   hardware.xone.enable = true;
   # Temp xone fix: https://github.com/NixOS/nixpkgs/pull/472163

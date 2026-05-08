@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{  pkgs, ... }:
 {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.dvardo = {
@@ -6,8 +6,8 @@
     description = "dvardo";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
-    packages = with pkgs; [
+    # packages = with pkgs; [
     #  thunderbird
-    ];
+    #];
   };
 }

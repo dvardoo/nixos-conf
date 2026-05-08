@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ ... }:
 {
   programs.zsh = {
     enable = true;
@@ -10,9 +10,9 @@
       plugins = [
         "git"
         #"docker"
-        
+
       ];
-      theme = "juanghurtado"; 
+      theme = "juanghurtado";
     };
 
     shellAliases = {
