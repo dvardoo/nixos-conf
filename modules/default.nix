@@ -2,9 +2,10 @@
 
 {
   imports =
-    [ 
+    [
       ./user.nix
       ./shell.nix
+      ./cosmic.nix
       ./common.nix
       ./workstations.nix
       ./gaming.nix

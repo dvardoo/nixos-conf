@@ -27,10 +27,6 @@
   #services.bpftune.package = pkgs.bpftune;  # Specify the bpftune package
   services.system76-scheduler.enable = true;
 
-  # Enable COSMIC DE
-  services.displayManager.cosmic-greeter.enable = true;
-  services.desktopManager.cosmic.enable = true;
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
 

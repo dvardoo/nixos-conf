@@ -1,0 +1,7 @@
+{ config, pkgs, inputs, ... }:
+{
+  # Enable COSMIC DE
+  services.displayManager.cosmic-greeter.enable = true;
+  services.desktopManager.cosmic.enable = true;
+
+}
