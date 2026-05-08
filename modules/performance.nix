@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, ... }:
 {
   # Performance tuning
   boot.kernelPackages = pkgs.linuxPackages_zen;
