@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   programs.keepassxc = {
@@ -29,7 +29,7 @@
         LockDatabaseIdle = true;
         LockDatabaseIdleSeconds = 600;
         #BackupBeforeSaving = true;
-        #BackupFileExtension = ".old.kdbx"; 
+        #BackupFileExtension = ".old.kdbx";
       };
     };
 

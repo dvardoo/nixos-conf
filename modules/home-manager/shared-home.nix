@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -71,6 +71,6 @@
       # EDITOR = "nvim";
     };
   };
-  
+
   programs.home-manager.enable = true;
 }
