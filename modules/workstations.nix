@@ -21,12 +21,6 @@
   #  plymouth.logo = "${pkgs.nixos-icons}/share/icons/hicolor/128x128/apps/nix-snowflake.png";
   #};
 
-  # Performance tuning
-  boot.kernelPackages = pkgs.linuxPackages_zen;
-  #services.bpftune.enable = true; # Enable the bpftune service
-  #services.bpftune.package = pkgs.bpftune;  # Specify the bpftune package
-  services.system76-scheduler.enable = true;
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
 

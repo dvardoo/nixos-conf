@@ -8,6 +8,7 @@
       ./cosmic.nix
       ./common.nix
       ./workstations.nix
+      ./performance.nix
       ./gaming.nix
       ./gc.nix
       ./amdrocm.nix
