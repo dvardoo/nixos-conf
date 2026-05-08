@@ -6,6 +6,7 @@
     extensions = [ "nix" ];
     userSettings = {
       hour_format = "hour24";
+      vim_mode = false;
     };
   };
 }
