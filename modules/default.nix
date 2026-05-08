@@ -8,7 +8,7 @@
       ./cosmic.nix
       ./boot.nix
       ./common.nix
-      ./workstations.nix
+      ./common-gui.nix
       ./performance.nix
       ./gaming.nix
       ./gc.nix
