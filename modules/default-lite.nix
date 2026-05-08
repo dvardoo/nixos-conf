@@ -6,13 +6,10 @@
       ./user.nix
       ./shell.nix
       ./common.nix
-      #./workstations.nix
-      #./gaming.nix
+      ./common-gui.nix
+      ./cinnamon.nix
       ./gc.nix
-      #./amdrocm.nix
-      #./llm.nix
-      #./stylix.nix
-      ./overlays.nix
+      #./overlays.nix
     ];
 
 }
