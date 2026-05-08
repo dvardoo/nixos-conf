@@ -9,6 +9,7 @@
       ./common-gui.nix
       ./cinnamon.nix
       ./gc.nix
+      ./performance.nix
       #./overlays.nix
     ];
 
