@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   # Unlock disk GUI, also quiet systemd startup messages
   boot = {
