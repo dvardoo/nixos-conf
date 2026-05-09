@@ -4,6 +4,7 @@
   imports =
     [
       ./user.nix
+      ./ssh.nix
       ./shell.nix
       ./common.nix
       ./common-gui.nix
