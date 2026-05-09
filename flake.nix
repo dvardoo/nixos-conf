@@ -55,6 +55,19 @@
       ];
     };
 
+    # gui-test
+    nixosConfigurations.gui-test = nixpkgs-stable.lib.nixosSystem {
+      specialArgs = {inherit inputs; };
+      modules = [
+        ./hosts/thinkpad/configuration.nix
+        #inputs.home-manager-unstable.nixosModules.default
+        #stylix.nixosModules.stylix
+        #{
+        #  home-manager.users.dvardo = import ./hosts/thinkpad/home.nix;
+        #}
+      ];
+    };
+
     # server-test
     nixosConfigurations.server-test = nixpkgs-stable.lib.nixosSystem {
       specialArgs = {inherit inputs; };
