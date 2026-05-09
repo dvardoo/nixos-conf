@@ -59,7 +59,7 @@
     nixosConfigurations.gui-test = nixpkgs-stable.lib.nixosSystem {
       specialArgs = {inherit inputs; };
       modules = [
-        ./hosts/thinkpad/configuration.nix
+        ./hosts/gui-test/configuration.nix
         #inputs.home-manager-unstable.nixosModules.default
         #stylix.nixosModules.stylix
         #{
