@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ ... }:
 
 {
   imports =
@@ -28,7 +28,7 @@
   #];
   #networking.defaultGateway = "";
   #networking.nameservers = [""];
- 
+
   # Use DHCP
   networking.interfaces.ens18.useDHCP = true;
 
