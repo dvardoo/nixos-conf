@@ -17,6 +17,7 @@
     protonup-qt
     heroic
     lutris
+    prismlauncher
   ];
 
   # Xbox controllers
