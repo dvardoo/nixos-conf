@@ -54,8 +54,10 @@
     lf
     # N
     ncdu
+    nvd
     # P
     pfetch
+    pdfgrep
 
   ];
 }
