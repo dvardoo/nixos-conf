@@ -21,6 +21,7 @@
       tree = "eza --icons --tree --group-directories-last";
       needs-reboot = ''if diff <(readlink /run/booted-system/{initrd,kernel,kernel-modules}) <(readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules}); then echo "✓ No reboot needed"; else echo "↻ Reboot needed"; fi'';
       update = "cd ~/nixos-conf/ && git pull && sudo nixos-rebuild switch --flake .#$(hostname)";
+      open = "xdg-open";
     };
 
     histSize = 10000;
