@@ -4,7 +4,7 @@
   imports = [
     ./git.nix
     ./fonts.nix
-    ./browsers.nix
+    #./browsers.nix
     ./keepassxc.nix
     #./keepassxc-wrapped.nix
     ./notifications.nix
