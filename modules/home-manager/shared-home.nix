@@ -7,6 +7,7 @@
     ./browsers.nix
     ./keepassxc.nix
     #./keepassxc-wrapped.nix
+    ./notifications.nix
     ./vscodium-fhs.nix
     #../stylix.nix
     ./alacritty.nix
