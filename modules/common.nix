@@ -58,6 +58,7 @@
     # P
     pfetch
     pdfgrep
-
+    # V
+    vulnix
   ];
 }
