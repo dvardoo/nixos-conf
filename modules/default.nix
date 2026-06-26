@@ -12,6 +12,7 @@
       ./performance.nix
       ./gaming.nix
       ./gc.nix
+      ./autoupgrade.nix
       ./amdrocm.nix
       ./llm.nix
       ./stylix.nix

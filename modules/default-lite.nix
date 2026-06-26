@@ -11,6 +11,7 @@
       ./boot.nix
       ./cinnamon.nix
       ./gc.nix
+      ./autoupgrade.nix
       #./performance.nix
       #./overlays.nix
     ];
