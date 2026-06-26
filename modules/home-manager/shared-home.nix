@@ -8,7 +8,6 @@
     ./keepassxc.nix
     #./keepassxc-wrapped.nix
     ./notifications.nix
-    ./vscodium-fhs.nix
     #../stylix.nix
     ./alacritty.nix
     ./obsidian.nix
@@ -38,7 +37,6 @@
       nix-search-cli
       virt-viewer
       scrcpy
-      #vscodium-fhs
       #alacritty
       nextcloud-client
       wireguard-tools
