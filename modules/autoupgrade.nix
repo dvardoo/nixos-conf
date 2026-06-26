@@ -7,5 +7,6 @@
     flake = "github:dvardoo/nixos-conf";
     allowReboot = false;
     randomizedDelaySec = "30min";
+    flags = [ "--no-write-lock-file" ];
   };
 }
