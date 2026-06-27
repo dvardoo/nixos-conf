@@ -32,7 +32,6 @@
       Install.WantedBy = [ "timers.target" ];
     };
 
-    # Service: Real break (9:00 AM and 2:00 PM)
     services.real-break-morning = {
       Unit = {
         Description = "Real break reminder at 09:00";
