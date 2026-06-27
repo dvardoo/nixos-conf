@@ -8,6 +8,7 @@
     ./keepassxc.nix
     #./keepassxc-wrapped.nix
     ./notifications.nix
+    ./update-service.nix
     #../stylix.nix
     ./alacritty.nix
     ./obsidian.nix
