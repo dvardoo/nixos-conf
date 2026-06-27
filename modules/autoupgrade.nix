@@ -8,5 +8,6 @@
     allowReboot = false;
     randomizedDelaySec = "30min";
     flags = [ "--no-write-lock-file" ];
+    persistent = true;
   };
 }
