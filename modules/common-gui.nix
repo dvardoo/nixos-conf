@@ -23,4 +23,10 @@
   programs.firefox.enable = true;
   programs.kdeconnect.enable = true;
 
+  # Common desktop packages
+  environment.systemPackages = with pkgs; [
+    papers
+    stirling-pdf-desktop
+
+  ];
 }

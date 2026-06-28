@@ -33,6 +33,9 @@
       # Tools
       hashcat
       nmap
+      exploitdb
+      dirb
+      gobuster
       bat
       wget
       nix-search-cli
