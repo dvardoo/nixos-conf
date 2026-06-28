@@ -1,4 +1,34 @@
 { config, pkgs, lib, ... }:
+
+let
+  updateScript = pkgs.writeShellScript "nixos-flake-update" ''
+    set -e
+    cd ~/nixos-conf
+
+    ${pkgs.git}/bin/git pull
+
+    if ${pkgs.findutils}/bin/find flake.lock -mtime +1 -quit; then
+      echo "flake.lock is older than 1 day, updating"
+      ${pkgs.nix}/bin/nix flake update
+    fi
+
+    if ! ${pkgs.nix}/bin/nix flake check; then
+      echo "nix flake check failed, reverting flake.lock"
+      ${pkgs.git}/bin/git checkout flake.lock
+      ${pkgs.libnotify}/bin/notify-send -u critical "NixOS Flake Update" "flake check failed reverted changes"
+      exit 1
+    fi
+
+    if ! ${pkgs.git}/bin/git diff --quiet flake.lock; then
+      echo "Changes detected, committing"
+      ${pkgs.git}/bin/git add flake.lock
+      ${pkgs.git}/bin/git commit -m "auto flake bump"
+      ${pkgs.git}/bin/git push origin main
+      ${pkgs.libnotify}/bin/notify-send "NixOS Flake Update" "Successfully updated and pushed flake.lock"
+    fi
+  '';
+in
+
 {
   home.packages = with pkgs; [
     libnotify
@@ -14,39 +44,7 @@
 
       Service = {
         Type = "oneshot";
-        WorkingDirectory = "%h/nixos-conf";
-        ExecStart = "${pkgs.bash}/bin/bash -c ''\
-          set -e
-
-          # Pull latest changes
-          ${pkgs.git}/bin/git pull
-
-          # Check if flake.lock is older than 1 day
-          if ${pkgs.findutils}/bin/find flake.lock -mtime +1 -quit; then
-            echo \"flake.lock is older than 1 day updating\"
-            ${pkgs.nix}/bin/nix flake update
-          fi
-
-          # Check flake integrity
-          if ! ${pkgs.nix}/bin/nix flake check; then
-            # Revert on error
-            echo \"nix flake check failed reverting flake.lock\"
-            ${pkgs.git}/bin/git checkout flake.lock
-            ${pkgs.libnotify}/bin/notify-send -u critical \"NixOS Flake Update\" \"flake check failed reverted changes\"
-            exit 1
-          fi
-
-          # Check if flake.lock has changes
-          if ${pkgs.git}/bin/git diff --quiet flake.lock; then
-            echo \"No changes to flake.lock\"
-          else
-            echo \"Changes detected committing\"
-            ${pkgs.git}/bin/git add flake.lock
-            ${pkgs.git}/bin/git commit -m \"auto flake bump\"
-            ${pkgs.git}/bin/git push origin main
-            ${pkgs.libnotify}/bin/notify-send \"NixOS Flake Update\" \"Successfully updated and pushed flake.lock\"
-          fi
-        ''";
+        ExecStart = "${updateScript}";
         StandardOutput = "journal";
         StandardError = "journal";
       };
