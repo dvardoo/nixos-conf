@@ -24,7 +24,7 @@ sudo nixos-rebuild switch --flake .#$newhostname
 - [ ] Add a server host with some services
 - [ ] Migrate services from old hosts
 - [ ] Add a managed, easy host for friends/family
-- [ ] Fix autoupgrade 
+- [x] Fix autoupgrade 
 - [x] Fix auto collect garbage
 - [ ] Explore home-manager
 - [ ] Configure Cosmic DE
