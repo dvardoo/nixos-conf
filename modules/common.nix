@@ -48,6 +48,7 @@
     tree
     # F
     fastfetch
+    file
     # G
     git
     # L
@@ -56,8 +57,11 @@
     ncdu
     nvd
     # P
+    p7zip
     pfetch
     pdfgrep
+    # U
+    unzip
     # V
     vulnix
   ];

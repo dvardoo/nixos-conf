@@ -36,6 +36,7 @@
       exploitdb
       dirb
       gobuster
+      binwalk
       bat
       wget
       nix-search-cli
