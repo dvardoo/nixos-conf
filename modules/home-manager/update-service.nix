@@ -58,8 +58,7 @@ in
       };
 
       Timer = {
-        OnBootSec = "5min";
-        OnUnitActiveSec = "1d";
+        OnCalendar = "daily";
         Persistent = true;
       };
 
