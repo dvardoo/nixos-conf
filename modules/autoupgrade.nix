@@ -3,7 +3,7 @@
 {
   system.autoUpgrade = {
     enable = true;
-    dates = "00:00";
+    dates = "03:00";
     flake = "github:dvardoo/nixos-conf";
     allowReboot = false;
     randomizedDelaySec = "30min";
