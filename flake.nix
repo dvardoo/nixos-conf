@@ -95,5 +95,13 @@
       ];
     };
 
+    # Ideapad
+    nixosConfigurations.ideapad = nixpkgs-stable.lib.nixosSystem {
+      specialArgs = {inherit inputs; };
+      modules = [
+        ./hosts/ideapad/configuration.nix
+      ];
+    };
+
   };
 }
