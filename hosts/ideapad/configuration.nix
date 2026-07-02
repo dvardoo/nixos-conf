@@ -10,6 +10,9 @@
       #inputs.home-manager-unstable.nixosModules.default
     ];
 
+  # Wi-Fi fix:
+  networking.networkmanager.wifi.powersave = false;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
