@@ -54,6 +54,7 @@
       magic-wormhole
       papers
       pdfgrep
+      caligula
       #obsidian
 
       # Communication
