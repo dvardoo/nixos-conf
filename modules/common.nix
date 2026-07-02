@@ -59,7 +59,6 @@
     # P
     p7zip
     pfetch
-    pdfgrep
     # U
     unzip
     # V

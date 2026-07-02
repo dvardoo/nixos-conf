@@ -25,7 +25,6 @@
 
   # Common desktop packages
   environment.systemPackages = with pkgs; [
-    papers
     stirling-pdf-desktop
 
   ];

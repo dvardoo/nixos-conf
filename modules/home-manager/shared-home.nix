@@ -52,6 +52,8 @@
       onionshare-gui
       drawio
       magic-wormhole
+      papers
+      pdfgrep
       #obsidian
 
       # Communication
