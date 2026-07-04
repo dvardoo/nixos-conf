@@ -56,7 +56,7 @@
       papers
       pdfgrep
       caligula
-      local-send
+      localsend
       #obsidian
       texmaker
       texliveFull
