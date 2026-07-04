@@ -37,6 +37,7 @@
       dirb
       gobuster
       binwalk
+      yara
       bat
       wget
       nix-search-cli
@@ -55,7 +56,10 @@
       papers
       pdfgrep
       caligula
+      local-send
       #obsidian
+      texmaker
+      texliveFull
 
       # Communication
       discord
