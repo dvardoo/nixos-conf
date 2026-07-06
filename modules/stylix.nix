@@ -43,6 +43,8 @@ in
     polarity = "light";
     base16Scheme = lightTheme;
 
+    # Not working for COSMIC
+    #image = ../assets/kanagawa/kanagawa-lotus.jpg;
   };
 
   environment.systemPackages = [ toggleThemeScript ];
@@ -57,6 +59,8 @@ in
         stylix.polarity = lib.mkForce "dark";
         stylix.base16Scheme = lib.mkForce darkTheme;
 
+        # Not working for COSMIC
+        #stylix.image = lib.mkForce ../assets/kanagawa/kanagawa-wave.jpg;
       };
     };
   };
