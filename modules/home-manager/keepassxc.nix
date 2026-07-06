@@ -5,7 +5,7 @@
     enable = true;
     settings = {
       GUI = {
-        ApplicationTheme = "dark";
+        ApplicationTheme = "automatic";
         ShowTrayIcon = true;
         TrayIconAppearance = "monochrome-light";
         MinimizeToTray = true;
