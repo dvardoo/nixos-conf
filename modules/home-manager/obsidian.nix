@@ -6,8 +6,8 @@
     vaults.Notes.target = "Nextcloud/Notes";
 
     #themes = [ pkgs.obsidian-theme-minimal ];
-    #settings = {
-    #  theme = "Minimal";
-    #};
+    vaults.Notes.settings.appearance = {
+         theme = "system";
+    };
   };
 }

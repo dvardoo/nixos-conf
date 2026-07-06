@@ -42,6 +42,7 @@ in
     enable = true;
     polarity = "light";
     base16Scheme = lightTheme;
+
   };
 
   environment.systemPackages = [ toggleThemeScript ];
@@ -55,6 +56,7 @@ in
       configuration = {
         stylix.polarity = lib.mkForce "dark";
         stylix.base16Scheme = lib.mkForce darkTheme;
+
       };
     };
   };
