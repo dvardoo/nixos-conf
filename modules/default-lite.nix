@@ -12,6 +12,7 @@
       ./cinnamon.nix
       ./gc.nix
       ./autoupgrade.nix
+      ./zramswap.nix
       #./performance.nix
       #./overlays.nix
     ];

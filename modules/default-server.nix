@@ -9,6 +9,7 @@
       ./ssh.nix
       ./gc.nix
       ./autoupgrade.nix
+      ./zramswap.nix
       ./qemu-guest-agent.nix
     ];
 

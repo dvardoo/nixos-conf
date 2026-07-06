@@ -10,6 +10,7 @@
       ./common.nix
       ./common-gui.nix
       ./performance.nix
+      ./zramswap.nix
       ./gaming.nix
       ./gc.nix
       ./autoupgrade.nix
