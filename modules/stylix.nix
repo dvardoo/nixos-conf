@@ -45,9 +45,14 @@ in
 
     # Not working for COSMIC
     #image = ../assets/kanagawa/kanagawa-lotus.jpg;
+    targets.gnome.enable = false;
+    targets.gtk.enable = false;
   };
 
-  environment.systemPackages = [ toggleThemeScript ];
+  environment.systemPackages = [
+    toggleThemeScript
+    pkgs.numix-icon-theme-circle
+  ];
 
   home-manager.users.dvardo.xdg.configFile."gtk-3.0/gtk.css".force = true;
   home-manager.users.dvardo.xdg.configFile."gtk-4.0/gtk.css".force = true;
@@ -61,6 +66,8 @@ in
 
         # Not working for COSMIC
         #stylix.image = lib.mkForce ../assets/kanagawa/kanagawa-wave.jpg;
+        stylix.targets.gnome.enable = lib.mkForce false;
+        stylix.targets.gtk.enable = lib.mkForce false;
       };
     };
   };
