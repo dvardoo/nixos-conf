@@ -12,6 +12,7 @@
       zoom-us
       libreoffice
       nextcloud-client
+      discord
     ];
   };
 }
