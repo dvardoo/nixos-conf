@@ -7,7 +7,7 @@
       GUI = {
         ApplicationTheme = "automatic";
         ShowTrayIcon = true;
-        TrayIconAppearance = "monochrome-light";
+        TrayIconAppearance = "colorful";
         MinimizeToTray = true;
       };
 
