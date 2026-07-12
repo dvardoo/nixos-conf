@@ -5,6 +5,12 @@ let
     set -e
     cd ~/nixos-conf
 
+    if ! ${pkgs.git}/bin/git diff --cached --quiet; then
+      echo "Error: Staged changes detected. Please commit or stash them first."
+      ${pkgs.libnotify}/bin/notify-send -u critical "NixOS Flake Update" "Staged changes detected—aborting to prevent accidental commits"
+      exit 1
+    fi
+
     ${pkgs.git}/bin/git pull
 
     if ${pkgs.findutils}/bin/find flake.lock -mtime +1 -quit; then
@@ -21,6 +27,7 @@ let
 
     if ! ${pkgs.git}/bin/git diff --quiet flake.lock; then
       echo "Changes detected, committing"
+      ${pkgs.git}/bin/git reset
       ${pkgs.git}/bin/git add flake.lock
       ${pkgs.git}/bin/git commit -m "auto flake bump"
       ${pkgs.git}/bin/git push origin main
