@@ -1,24 +1,21 @@
 { pkgs, ... }:
 
 {
-  # Aktiverar Niri-fönsterhanteraren globalt på systemet
   programs.niri = {
     enable = true;
     package = pkgs.niri;
   };
 
-  # Installerar Noctalia och nödvändiga Wayland-verktyg
   environment.systemPackages = [
-    pkgs.noctalia
-    pkgs.xwayland
+    pkgs.noctalia-shell
     pkgs.alacritty
+    pkgs.fuzzel
   ];
 
-  # Skriver grundinställningarna för Niri till din hemkatalog via Home Manager
   home-manager.users.dvardo = {
     xdg.configFile."niri/config.kdl".text = ''
-      // Startar Noctalia-skalet automatiskt när Niri drar igång
-      spawn-at-startup "noctalia"
+      // Startup
+      spawn-at-startup "noctalia-shell"
 
       input {
           keyboard {
@@ -28,13 +25,24 @@
           }
           touchpad {
               tap
-              natural-scroll
           }
       }
 
       output "eDP-1" {
           mode "1920x1200@60.000"
           scale 1.0
+      }
+
+      output "DP-3" {
+          mode "2560x1440@60.000"
+          position x=0 y=0
+          transform "normal"
+      }
+
+      output "DP-5" {
+          mode "1080x1920@60"
+          position x=2560 y=0
+          transform "270"
       }
 
       layout {
@@ -50,20 +58,55 @@
           default-column-width { proportion 0.5; }
       }
 
-      // Grundläggande tangentbordsgenvägar (Mod = Super/Windows-tangenten)
+      // Shortcuts
       binds {
-          "Mod+Return" { spawn "alacritty"; }
+          // Spawn
+          "Mod+T" { spawn "alacritty"; }
           "Mod+D" { spawn "fuzzel"; }
           "Mod+Q" { close-window; }
+          "Mod+H" { show-hotkey-overlay; }
           "Mod+Shift+E" { quit; }
 
-          // Navigering mellan kolumner
+          // Navigation
           "Mod+Left"  { focus-column-left; }
           "Mod+Right" { focus-column-right; }
+          "Mod+Up"     { focus-window-up; }
+          "Mod+Down"   { focus-window-down; }
 
-          // Flytta fönster
-          "Mod+Shift+Left"  { move-window-column-left; }
-          "Mod+Shift+Right" { move-window-column-right; }
+          // Window management
+          "Mod+Shift+Left"  { move-column-left; }
+          "Mod+Shift+Right" { move-column-right; }
+          "Mod+Shift+Up"    { move-window-up; }
+          "Mod+Shift+Down"  { move-window-down; }
+
+          // Stacks & Layout
+          "Mod+S" { toggle-column-tabbed-display; }
+          "Mod+M" { maximize-column; }
+          "Mod+Ctrl+M" { fullscreen-window; }
+          "Mod+W" { toggle-column-tabbed-display; }
+
+          // Workspaces
+          "Mod+1" { focus-workspace 1; }
+          "Mod+2" { focus-workspace 2; }
+          "Mod+3" { focus-workspace 3; }
+          "Mod+Shift+1" { move-column-to-workspace 1; }
+          "Mod+Shift+2" { move-column-to-workspace 2; }
+          "Mod+Shift+3" { move-column-to-workspace 3; }
+          "Mod+Ctrl+1" { move-column-to-workspace 1; }
+          "Mod+Ctrl+2" { move-column-to-workspace 2; }
+          "Mod+Ctrl+3" { move-column-to-workspace 3; }
+
+          // Column/Window adjustments
+          "Mod+Minus" { set-column-width "-10%"; }
+          "Mod+Plus" { set-column-width "+10%"; }
+          "Mod+Shift+Minus" { set-window-height "-10%"; }
+          "Mod+Shift+Plus" { set-window-height "+10%"; }
+
+          // Floating
+          "Mod+V" { toggle-window-floating; }
+
+          // System
+          "Mod+O" { toggle-overview; }
       }
     '';
   };
