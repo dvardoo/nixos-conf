@@ -6,7 +6,7 @@
       ./user.nix
       ./shell.nix
       ./cosmic.nix
-      ./niri.nix
+      #./niri.nix
       ./boot.nix
       ./common.nix
       ./common-gui.nix
