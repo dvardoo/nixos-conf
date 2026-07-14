@@ -57,6 +57,7 @@
       pdfgrep
       caligula
       localsend
+      unrar
       #obsidian
       texmaker
       texliveFull
