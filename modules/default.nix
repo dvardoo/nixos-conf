@@ -19,6 +19,7 @@
       ./llm.nix
       ./stylix.nix
       ./overlays.nix
+      ./zerotier.nix
     ];
 
 }
