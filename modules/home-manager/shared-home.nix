@@ -42,6 +42,7 @@
       wget
       nix-search-cli
       virt-viewer
+      ansible
       scrcpy
       #alacritty
       nextcloud-client
