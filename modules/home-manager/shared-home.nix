@@ -32,6 +32,7 @@
 
       # Tools
       hashcat
+      hcxtools
       nmap
       exploitdb
       dirb
