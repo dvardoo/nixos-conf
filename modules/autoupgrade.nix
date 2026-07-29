@@ -7,7 +7,7 @@ let
 
     NOTIFIED=0
 
-    ${pkgs.util-linux}/bin/loginctl list-sessions --output=json | \
+    ${pkgs.systemd}/bin/loginctl list-sessions --output=json | \
     ${pkgs.jq}/bin/jq -r '.[] | select(.state=="active") | select(.type=="x11" or .type=="wayland") | "\(.user):\(.uid)"' | \
     while IFS=: read -r username user_uid; do
       [ -z "$username" ] && continue
@@ -22,8 +22,7 @@ let
           --urgency=critical \
           --expire-time=0 \
           -a 'NixOS Upgrade' \
-          '$TITLE' '$MESSAGE'" 2>&1 | systemd-cat -t notify-any-user && NOTIFIED=1 || \
-      echo "su command failed for $username"
+          '$TITLE' '$MESSAGE'" 2>&1 && NOTIFIED=1
     done
 
     if [ $NOTIFIED -eq 0 ]; then
