@@ -5,8 +5,12 @@ let
     TITLE="$1"
     MESSAGE="$2"
 
-    # Try to find and notify a logged-in user via D-Bus
-    for pid in $(${pkgs.procps}/bin/pgrep -u 1000-65534 systemd-logind 2>/dev/null); do
+    # Find PIDs of user systemd instances (UID >= 1000)
+    for pid in $(${pkgs.procps}/bin/ps aux | ${pkgs.gnugrep}/bin/grep -E '[s]ystemd.*--user' | ${pkgs.coreutils}/bin/awk '{print $2}'); do
+      # Check if the process owner is a regular user (UID >= 1000)
+      uid=$(${pkgs.coreutils}/bin/stat -c '%U' /proc/$pid 2>/dev/null)
+      [[ "$uid" =~ ^[0-9]+$ ]] && [ "$uid" -ge 1000 ] || continue
+
       DBUS_ADDR=$(${pkgs.util-linux}/bin/cat /proc/$pid/environ 2>/dev/null | \
         ${pkgs.gnugrep}/bin/grep -z "DBUS_SESSION_BUS_ADDRESS" | \
         ${pkgs.gnugrep}/bin/grep -o "unix:path=[^[:space:]]*")
@@ -32,14 +36,15 @@ let
           array:string: \
           dict:string:variant:urgency,byte:1 \
           int32:5000 \
-          2>/dev/null && exit 0
+          2>&1 && exit 0
       fi
     done
 
-    # Fallback to wall for headless/no logged-in users
+    # Fallback to wall
     ${pkgs.util-linux}/bin/wall "$TITLE: $MESSAGE"
   '';
 in
+
 {
   system.autoUpgrade = {
     enable = true;
