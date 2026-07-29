@@ -47,7 +47,7 @@ let
       [ -n "$DISPLAY" ] && export DISPLAY
       [ -n "$WAYLAND_DISPLAY" ] && export WAYLAND_DISPLAY
 
-      if ${pkgs.util-linux}/bin/runuser -u "$USERNAME" -- ${pkgs.libnotify}/bin/notify-send -t 10000 -a "NixOS Upgrade" "$TITLE" "$MESSAGE" >/dev/null 2>&1; then
+      if ${pkgs.util-linux}/bin/runuser -u "$USERNAME" -- ${pkgs.libnotify}/bin/notify-send -t 10000 -a "$TITLE" "$MESSAGE" >/dev/null 2>&1; then
         log "notify-send succeeded for $USERNAME"
         echo 1 > "$TMP_SENT"
       else
@@ -89,13 +89,13 @@ in
     };
 
     preStart = ''
-      ${notifyAnyUser} "Auto-upgrade starting"
+      ${notifyAnyUser} "NixOS Upgrade" "Auto-upgrade starting"
     '';
 
     postStop = ''
       TIMESTAMP=$(${pkgs.coreutils}/bin/date '+%Y-%m-%d %H:%M:%S')
       REBOOT_STATUS=$(if ${pkgs.diffutils}/bin/diff <(readlink /run/booted-system/{initrd,kernel,kernel-modules}) <(readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules}) >/dev/null 2>&1; then echo "✓ No reboot needed"; else echo "↻ Reboot needed"; fi)
-      ${notifyAnyUser} "Completed at $TIMESTAMP\n$REBOOT_STATUS"
+      ${notifyAnyUser} "NixOS Upgrade" "Completed at $TIMESTAMP\n$REBOOT_STATUS"
     '';
   };
 }
