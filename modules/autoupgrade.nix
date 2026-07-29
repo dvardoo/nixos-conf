@@ -7,14 +7,13 @@ let
     MESSAGE="$2"
 
     # Try to send D-Bus notification to any logged-in user
-    for pid in $(${pkgs.procps}/bin/pgrep -u 1000-9999 systemd 2>/dev/null); do
-      # Extract DBUS address from the systemd process environment
-      DBUS_ADDR=$(${pkgs.coreutils}/bin/tr '\0' '\n' < /proc/$pid/environ 2>/dev/null | \
-        ${pkgs.gnugrep}/bin/grep '^DBUS_SESSION_BUS_ADDRESS=' | \
-        ${pkgs.coreutils}/bin/cut -d'=' -f2)
+    for runtime_dir in /run/user/*/; do
+      [ -d "$runtime_dir" ] || continue
 
-      if [ -n "$DBUS_ADDR" ]; then
-        # Send notification using the extracted DBUS address
+      DBUS_ADDR="unix:path=''${runtime_dir}bus"
+
+      if [ -S "''${runtime_dir}bus" ]; then
+        # Send notification using the socket
         DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" \
         ${pkgs.dbus}/bin/dbus-send \
           --print-reply \
