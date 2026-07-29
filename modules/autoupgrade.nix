@@ -7,10 +7,8 @@ let
     MESSAGE="$2"
     NOTIFIED=0
 
-    # Log to journal for debugging
     echo "notify-any-user called: $TITLE / $MESSAGE" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
 
-    # Get active desktop sessions using loginctl
     SESSIONS=$(${pkgs.systemd}/bin/loginctl list-sessions --no-legend 2>/dev/null)
     echo "Sessions found: $SESSIONS" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
 
@@ -28,12 +26,12 @@ let
       echo "Session $SESSION_ID: User=$USER State=$STATE Type=$TYPE" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
 
       if [ "$STATE" = "active" ] && ([ "$TYPE" = "x11" ] || [ "$TYPE" = "wayland" ]) && [ -n "$USER" ]; then
-        UID=$(${pkgs.coreutils}/bin/id -u "$USER" 2>/dev/null)
-        if [ -n "$UID" ] && [ -S "/run/user/$UID/bus" ]; then
-          echo "Attempting notification to $USER (UID=$UID)" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
+        user_uid=$(${pkgs.coreutils}/bin/id -u "$USER" 2>/dev/null)
+        if [ -n "$user_uid" ] && [ -S "/run/user/$user_uid/bus" ]; then
+          echo "Attempting notification to $USER (UID=$user_uid)" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
 
           if ${pkgs.su}/bin/su - "$USER" -c \
-            "DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/$UID/bus' \
+            "DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/$user_uid/bus' \
              ${pkgs.libnotify}/bin/notify-send --urgency=critical '$TITLE' '$MESSAGE'" \
             2>&1 | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user; then
             echo "Notification sent successfully" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
