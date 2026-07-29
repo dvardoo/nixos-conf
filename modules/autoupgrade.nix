@@ -5,7 +5,7 @@ let
     TITLE="$1"
     MESSAGE="$2"
 
-    # Try to find and notify a logged-in user
+    # Try to find and notify a logged-in user via D-Bus
     for pid in $(${pkgs.procps}/bin/pgrep -u 1000-65534 systemd-logind 2>/dev/null); do
       DBUS_ADDR=$(${pkgs.util-linux}/bin/cat /proc/$pid/environ 2>/dev/null | \
         ${pkgs.gnugrep}/bin/grep -z "DBUS_SESSION_BUS_ADDRESS" | \
@@ -18,9 +18,21 @@ let
 
       if [ -n "$DBUS_ADDR" ] && [ -S "''${DBUS_ADDR#unix:path=}" ] && [ -n "$DISPLAY" ]; then
         DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" \
-        DISPLAY="$DISPLAY" \
-        ${pkgs.libnotify}/bin/notify-send "$TITLE" "$MESSAGE" 2>/dev/null && \
-        exit 0
+        ${pkgs.dbus}/bin/dbus-send \
+          --session \
+          --print-reply \
+          --dest=org.freedesktop.Notifications \
+          /org/freedesktop/Notifications \
+          org.freedesktop.Notifications.Notify \
+          string:"$TITLE" \
+          uint32:0 \
+          string:"" \
+          string:"$TITLE" \
+          string:"$MESSAGE" \
+          array:string: \
+          dict:string:variant:urgency,byte:1 \
+          int32:5000 \
+          2>/dev/null && exit 0
       fi
     done
 
@@ -50,8 +62,7 @@ in
     };
 
     preStart = ''
-      TIMESTAMP=$(${pkgs.coreutils}/bin/date '+%Y-%m-%d %H:%M:%S')
-      ${notify-any-user} "NixOS Upgrade" "Auto-upgrade starting at $TIMESTAMP"
+      ${notify-any-user} "NixOS Upgrade" "Auto-upgrade starting"
     '';
 
     postStop = ''
