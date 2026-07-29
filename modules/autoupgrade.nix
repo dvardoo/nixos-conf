@@ -47,7 +47,7 @@ let
       [ -n "$DISPLAY" ] && export DISPLAY
       [ -n "$WAYLAND_DISPLAY" ] && export WAYLAND_DISPLAY
 
-      if ${pkgs.util-linux}/bin/runuser -u "$USERNAME" -- ${pkgs.libnotify}/bin/notify-send -t 10000 -a "NixOS Upgrade" "$TITLE" "$MESSAGE" >/dev/null 2>&1; then
+      if ${pkgs.util-linux}/bin/runuser -u "$USERNAME" -- ${pkgs.libnotify}/bin/notify-send -t 10000 -a "NixOS Upgrade" "$MESSAGE" >/dev/null 2>&1; then
         log "notify-send succeeded for $USERNAME"
         echo 1 > "$TMP_SENT"
       else
