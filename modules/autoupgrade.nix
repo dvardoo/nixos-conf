@@ -8,8 +8,8 @@ let
 
     echo "notify-any-user called: $TITLE / $MESSAGE" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
 
-    # Use loginctl list-sessions to get both username and session properties
-    ${pkgs.systemd}/bin/loginctl list-sessions --no-legend 2>/dev/null | while read -r SESSION_ID user_uid username _ _ _ _ _ _; do
+    # Use process substitution to avoid subshell issues with NOTIFIED
+    while read -r SESSION_ID user_uid username _ _ _ _ _ _; do
       [ -z "$SESSION_ID" ] && continue
 
       SESSION_INFO=$(${pkgs.systemd}/bin/loginctl show-session "$SESSION_ID" \
@@ -26,21 +26,20 @@ let
 
           if ${pkgs.su}/bin/su - "$username" -c \
             "DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/$user_uid/bus' \
-             ${pkgs.libnotify}/bin/notify-send --urgency=critical --hint=transient:1 -a 'NixOS Upgrade' '$TITLE' '$MESSAGE'" \
+             ${pkgs.libnotify}/bin/notify-send --urgency=critical --hint=transient:b:true -a 'NixOS Upgrade' '$TITLE' '$MESSAGE'" \
             2>&1 | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user; then
             echo "Notification sent successfully" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
             NOTIFIED=1
           fi
         fi
       fi
-    done
+    done < <(${pkgs.systemd}/bin/loginctl list-sessions --no-legend 2>/dev/null)
 
     if [ $NOTIFIED -eq 0 ]; then
       echo "All notifications failed, using wall fallback" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
       echo "NixOS Upgrade: $MESSAGE" | ${pkgs.util-linux}/bin/wall
     fi
   '';
-in
 
 {
   system.autoUpgrade = {
