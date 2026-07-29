@@ -2,6 +2,7 @@
 
 let
   notify-any-user = pkgs.writeShellScript "notify-any-user" ''
+    set -x
     TITLE="$1"
     MESSAGE="$2"
 
