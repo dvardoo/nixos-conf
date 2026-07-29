@@ -22,7 +22,8 @@ let
           --urgency=critical \
           --expire-time=0 \
           -a 'NixOS Upgrade' \
-          '$TITLE' '$MESSAGE'" 2>&1 && NOTIFIED=1
+          '$TITLE' '$MESSAGE'" 2>&1 | systemd-cat -t notify-any-user && NOTIFIED=1 || \
+      echo "su command failed for $username"
     done
 
     if [ $NOTIFIED -eq 0 ]; then
