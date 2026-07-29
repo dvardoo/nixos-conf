@@ -5,39 +5,37 @@ let
     TITLE="$1"
     MESSAGE="$2"
 
-    echo "notify-any-user called: $TITLE / $MESSAGE"
+    NOTIFIED_FILE=$(${pkgs.coreutils}/bin/mktemp)
+    echo 0 > "$NOTIFIED_FILE"
 
-    NOTIFIED=0
+    ${pkgs.systemd}/bin/loginctl list-sessions | awk 'NR > 1 && $6 == "user" {print $2, $3}' | while read -r USER_UID USERNAME; do
+      if [ -n "$USER_UID" ] && [ "$USER_UID" -gt 0 ]; then
+        echo "notify-any-user: Attempting notification to $USERNAME (UID=$USER_UID)" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
 
-    ${pkgs.systemd}/bin/loginctl list-sessions | tail -n +2 | while read -r LINE; do
-      [ -z "$LINE" ] && continue
+        SESSION_INFO=$(${pkgs.systemd}/bin/loginctl show-session -p Display,WaylandDisplay --value $(${pkgs.systemd}/bin/loginctl list-sessions | awk -v uid="$USER_UID" '$2 == uid {print $1; exit}'))
+        DISPLAY=$(echo "$SESSION_INFO" | head -1)
+        WAYLAND_DISPLAY=$(echo "$SESSION_INFO" | tail -1)
 
-      SESSION_ID=$(echo "$LINE" | awk '{print $1}')
-      USER_UID=$(echo "$LINE" | awk '{print $2}')
-      USERNAME=$(echo "$LINE" | awk '{print $3}')
-      CLASS=$(echo "$LINE" | awk '{print $6}')
+        [ -z "$DISPLAY" ] && DISPLAY=":0"
+        [ -z "$WAYLAND_DISPLAY" ] && WAYLAND_DISPLAY="wayland-0"
 
-      # Skip inactive sessions and non-user sessions
-      if [ "$CLASS" = "user" ] || [ "$CLASS" = "manager" ]; then
-        echo "Session $SESSION_ID: User=$USERNAME UID=$USER_UID Class=$CLASS"
-
-        if [ -n "$USER_UID" ] && [ "$USER_UID" -gt 0 ]; then
-          echo "Attempting notification to $USERNAME (UID=$USER_UID)"
-
-          DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USER_UID/bus" \
-          DISPLAY=":0" \
-          WAYLAND_DISPLAY="wayland-0" \
-          ${pkgs.util-linux}/bin/su - "$USERNAME" -c \
-            "${pkgs.libnotify}/bin/notify-send --urgency=critical --expire-time=0 -a 'NixOS Upgrade' '$TITLE' '$MESSAGE'" 2>&1 && NOTIFIED=1
-        fi
+        DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USER_UID/bus" \
+        XDG_RUNTIME_DIR="/run/user/$USER_UID" \
+        DISPLAY="$DISPLAY" \
+        WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
+        ${pkgs.util-linux}/bin/runuser -u "$USERNAME" -- \
+          ${pkgs.libnotify}/bin/notify-send -t 0 -a 'NixOS Upgrade' "$TITLE" "$MESSAGE" 2>&1 && echo 1 > "$NOTIFIED_FILE"
       fi
     done
 
-    if [ $NOTIFIED -eq 0 ]; then
-      echo "No active GUI sessions found, using wall fallback"
+    NOTIFIED=$(cat "$NOTIFIED_FILE")
+    ${pkgs.coreutils}/bin/rm "$NOTIFIED_FILE"
+
+    if [ "$NOTIFIED" -eq 0 ]; then
+      echo "notify-any-user: No active GUI sessions found, using wall fallback" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
       echo "$MESSAGE" | ${pkgs.util-linux}/bin/wall
     else
-      echo "Notification sent successfully"
+      echo "notify-any-user: Notification sent successfully" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
     fi
   '';
 in
