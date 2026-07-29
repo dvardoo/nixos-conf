@@ -6,32 +6,35 @@ let
     TITLE="$1"
     MESSAGE="$2"
 
-    # Try to send D-Bus notification to any logged-in user
-    for runtime_dir in /run/user/*/; do
-      [ -d "$runtime_dir" ] || continue
+    # Get active desktop sessions using loginctl
+    ${pkgs.systemd}/bin/loginctl list-sessions --no-legend | \
+    while read -r SESSION_ID REST; do
+      # Get session details
+      SESSION_INFO=$(${pkgs.systemd}/bin/loginctl show-session \
+        -p User -p State -p Type -p Display "$SESSION_ID" 2>/dev/null)
 
-      DBUS_ADDR="unix:path=''${runtime_dir}bus"
+      USER=$(echo "$SESSION_INFO" | grep '^User=' | cut -d'=' -f2)
+      STATE=$(echo "$SESSION_INFO" | grep '^State=' | cut -d'=' -f2)
+      TYPE=$(echo "$SESSION_INFO" | grep '^Type=' | cut -d'=' -f2)
 
-      if [ -S "''${runtime_dir}bus" ]; then
-        # Send notification using the socket
-        DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" \
-        ${pkgs.dbus}/bin/dbus-send \
-          --print-reply \
-          --dest=org.freedesktop.Notifications \
-          /org/freedesktop/Notifications \
-          org.freedesktop.Notifications.Notify \
-          string:"$TITLE" \
-          uint32:0 \
-          string:"" \
-          string:"$TITLE" \
-          string:"$MESSAGE" \
-          array:string: \
-          dict:string:variant:urgency,byte:1 \
-          int32:5000 2>/dev/null && exit 0
+      # Only notify active X11/Wayland sessions
+      if [ "$STATE" = "active" ] && ([ "$TYPE" = "x11" ] || [ "$TYPE" = "wayland" ]) && [ -n "$USER" ]; then
+        # Get the user's UID
+        UID=$(${pkgs.coreutils}/bin/id -u "$USER" 2>/dev/null)
+        if [ -n "$UID" ]; then
+          DBUS_ADDR="unix:path=/run/user/$UID/bus"
+
+          # Run notify-send as the user using su (no sudo required)
+          ${pkgs.su}/bin/su -l "$USER" -c \
+            "${pkgs.coreutils}/bin/env DBUS_SESSION_BUS_ADDRESS='$DBUS_ADDR' \
+            ${pkgs.libnotify}/bin/notify-send \
+              --urgency=critical \
+              '$TITLE' '$MESSAGE'" 2>/dev/null && exit 0
+        fi
       fi
     done
 
-    # Fallback to wall
+    # Fallback to wall if no notifications sent
     ${pkgs.util-linux}/bin/wall "⚠ $TITLE: $MESSAGE"
   '';
 in
