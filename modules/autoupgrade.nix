@@ -5,37 +5,49 @@ let
   notify-any-user = pkgs.writeShellScript "notify-any-user" ''
     TITLE="$1"
     MESSAGE="$2"
+    NOTIFIED=0
+
+    # Log to journal for debugging
+    echo "notify-any-user called: $TITLE / $MESSAGE" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
 
     # Get active desktop sessions using loginctl
-    ${pkgs.systemd}/bin/loginctl list-sessions --no-legend | \
-    while read -r SESSION_ID REST; do
-      # Get session details
-      SESSION_INFO=$(${pkgs.systemd}/bin/loginctl show-session \
-        -p User -p State -p Type -p Display "$SESSION_ID" 2>/dev/null)
+    SESSIONS=$(${pkgs.systemd}/bin/loginctl list-sessions --no-legend 2>/dev/null)
+    echo "Sessions found: $SESSIONS" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
+
+    echo "$SESSIONS" | \
+    while read -r SESSION_ID _; do
+      [ -z "$SESSION_ID" ] && continue
+
+      SESSION_INFO=$(${pkgs.systemd}/bin/loginctl show-session "$SESSION_ID" \
+        -p User -p State -p Type 2>/dev/null)
 
       USER=$(echo "$SESSION_INFO" | grep '^User=' | cut -d'=' -f2)
       STATE=$(echo "$SESSION_INFO" | grep '^State=' | cut -d'=' -f2)
       TYPE=$(echo "$SESSION_INFO" | grep '^Type=' | cut -d'=' -f2)
 
-      # Only notify active X11/Wayland sessions
-      if [ "$STATE" = "active" ] && ([ "$TYPE" = "x11" ] || [ "$TYPE" = "wayland" ]) && [ -n "$USER" ]; then
-        # Get the user's UID
-        UID=$(${pkgs.coreutils}/bin/id -u "$USER" 2>/dev/null)
-        if [ -n "$UID" ]; then
-          DBUS_ADDR="unix:path=/run/user/$UID/bus"
+      echo "Session $SESSION_ID: User=$USER State=$STATE Type=$TYPE" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
 
-          # Run notify-send as the user using su (no sudo required)
-          ${pkgs.su}/bin/su -l "$USER" -c \
-            "${pkgs.coreutils}/bin/env DBUS_SESSION_BUS_ADDRESS='$DBUS_ADDR' \
-            ${pkgs.libnotify}/bin/notify-send \
-              --urgency=critical \
-              '$TITLE' '$MESSAGE'" 2>/dev/null && exit 0
+      if [ "$STATE" = "active" ] && ([ "$TYPE" = "x11" ] || [ "$TYPE" = "wayland" ]) && [ -n "$USER" ]; then
+        UID=$(${pkgs.coreutils}/bin/id -u "$USER" 2>/dev/null)
+        if [ -n "$UID" ] && [ -S "/run/user/$UID/bus" ]; then
+          echo "Attempting notification to $USER (UID=$UID)" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
+
+          if ${pkgs.su}/bin/su - "$USER" -c \
+            "DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/$UID/bus' \
+             ${pkgs.libnotify}/bin/notify-send --urgency=critical '$TITLE' '$MESSAGE'" \
+            2>&1 | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user; then
+            echo "Notification sent successfully" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
+            NOTIFIED=1
+            break
+          fi
         fi
       fi
     done
 
-    # Fallback to wall if no notifications sent
-    ${pkgs.util-linux}/bin/wall "⚠ $TITLE: $MESSAGE"
+    if [ $NOTIFIED -eq 0 ]; then
+      echo "Falling back to wall" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
+      echo "NixOS Upgrade: $MESSAGE" | ${pkgs.util-linux}/bin/wall
+    fi
   '';
 in
 
