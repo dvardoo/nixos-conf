@@ -12,24 +12,25 @@ let
       [ -z "$SESSION_ID" ] && continue
 
       SESSION_INFO=$(${pkgs.systemd}/bin/loginctl show-session "$SESSION_ID" \
-        -p State -p Type -p Display 2>/dev/null)
+        -p State -p Type 2>/dev/null)
 
       STATE=$(echo "$SESSION_INFO" | grep '^State=' | cut -d'=' -f2)
       TYPE=$(echo "$SESSION_INFO" | grep '^Type=' | cut -d'=' -f2)
-      DISPLAY_VAR=$(echo "$SESSION_INFO" | grep '^Display=' | cut -d'=' -f2)
 
-      echo "Session $SESSION_ID: User=$username State=$STATE Type=$TYPE Display=$DISPLAY_VAR" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
+      echo "Session $SESSION_ID: User=$username State=$STATE Type=$TYPE" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
 
       if [ "$STATE" = "active" ] && ([ "$TYPE" = "x11" ] || [ "$TYPE" = "wayland" ]) && [ -n "$username" ]; then
         if [ -S "/run/user/$user_uid/bus" ]; then
           echo "Attempting notification to $username (UID=$user_uid)" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
 
-          WAYLAND_DISPLAY="wayland-0"
+          # Set DISPLAY and WAYLAND_DISPLAY based on session type
+          DISPLAY_VAL=":0"
+          WAYLAND_VAL="wayland-0"
           if [ "$TYPE" = "x11" ]; then
-            WAYLAND_DISPLAY=""
+            WAYLAND_VAL=""
           fi
 
-          if su - "$username" -c "DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/$user_uid/bus' DISPLAY='$DISPLAY_VAR' WAYLAND_DISPLAY='$WAYLAND_DISPLAY' ${pkgs.libnotify}/bin/notify-send --urgency=critical -a 'NixOS Upgrade' '$TITLE' '$MESSAGE'" \
+          if ${pkgs.shadow}/bin/su - "$username" -c "DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/$user_uid/bus' DISPLAY='$DISPLAY_VAL' WAYLAND_DISPLAY='$WAYLAND_VAL' ${pkgs.libnotify}/bin/notify-send --urgency=critical -a 'NixOS Upgrade' '$TITLE' '$MESSAGE'" \
             2>&1 | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user; then
             echo "Notification sent successfully" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
             NOTIFIED=1
