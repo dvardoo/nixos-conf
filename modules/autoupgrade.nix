@@ -8,25 +8,27 @@ let
 
     # Try to send D-Bus notification to any logged-in user
     for pid in $(${pkgs.procps}/bin/pgrep -u 1000-9999 systemd 2>/dev/null); do
-      UID=$(${pkgs.coreutils}/bin/stat -c %U /proc/$pid 2>/dev/null)
+      # Extract DBUS address from the systemd process environment
+      DBUS_ADDR=$(${pkgs.coreutils}/bin/tr '\0' '\n' < /proc/$pid/environ 2>/dev/null | \
+        ${pkgs.gnugrep}/bin/grep '^DBUS_SESSION_BUS_ADDRESS=' | \
+        ${pkgs.coreutils}/bin/cut -d'=' -f2)
 
-      if [ -n "$UID" ]; then
-        # Use systemd-run to invoke the notification in the user's session
-        ${pkgs.systemd}/bin/systemd-run --user -M "$UID" \
-          ${pkgs.dbus}/bin/dbus-send \
-            --session \
-            --print-reply \
-            --dest=org.freedesktop.Notifications \
-            /org/freedesktop/Notifications \
-            org.freedesktop.Notifications.Notify \
-            string:"$TITLE" \
-            uint32:0 \
-            string:"" \
-            string:"$TITLE" \
-            string:"$MESSAGE" \
-            array:string: \
-            dict:string:variant:urgency,byte:1 \
-            int32:5000 2>/dev/null && exit 0
+      if [ -n "$DBUS_ADDR" ]; then
+        # Send notification using the extracted DBUS address
+        DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" \
+        ${pkgs.dbus}/bin/dbus-send \
+          --print-reply \
+          --dest=org.freedesktop.Notifications \
+          /org/freedesktop/Notifications \
+          org.freedesktop.Notifications.Notify \
+          string:"$TITLE" \
+          uint32:0 \
+          string:"" \
+          string:"$TITLE" \
+          string:"$MESSAGE" \
+          array:string: \
+          dict:string:variant:urgency,byte:1 \
+          int32:5000 2>/dev/null && exit 0
       fi
     done
 
