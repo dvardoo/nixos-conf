@@ -26,10 +26,9 @@ let
 
           if ${pkgs.su}/bin/su - "$username" -c \
             "DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/$user_uid/bus' \
-             ${pkgs.libnotify}/bin/notify-send --urgency=critical '$TITLE' '$MESSAGE'" \
+             ${pkgs.libnotify}/bin/notify-send --urgency=critical --hint=transient:1 -a 'NixOS Upgrade' '$TITLE' '$MESSAGE'" \
             2>&1 | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user; then
             echo "Notification sent successfully" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
-            echo "NixOS Upgrade: $MESSAGE" | ${pkgs.util-linux}/bin/wall
             NOTIFIED=1
           fi
         fi
