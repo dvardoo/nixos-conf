@@ -4,46 +4,32 @@ let
   notify-any-user = pkgs.writeShellScript "notify-any-user" ''
     TITLE="$1"
     MESSAGE="$2"
+
     NOTIFIED=0
 
-    echo "notify-any-user called: $TITLE / $MESSAGE" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
+    ${pkgs.util-linux}/bin/loginctl list-sessions --output=json | \
+    ${pkgs.jq}/bin/jq -r '.[] | select(.state=="active") | select(.type=="x11" or .type=="wayland") | "\(.user):\(.uid)"' | \
+    while IFS=: read -r username user_uid; do
+      [ -z "$username" ] && continue
 
-    while read -r SESSION_ID user_uid username _ _ _ _ _ _; do
-      [ -z "$SESSION_ID" ] && continue
+      echo "Attempting notification to $username (UID=$user_uid)"
 
-      SESSION_INFO=$(${pkgs.systemd}/bin/loginctl show-session "$SESSION_ID" \
-        -p State -p Type 2>/dev/null)
-
-      STATE=$(echo "$SESSION_INFO" | grep '^State=' | cut -d'=' -f2)
-      TYPE=$(echo "$SESSION_INFO" | grep '^Type=' | cut -d'=' -f2)
-
-      echo "Session $SESSION_ID: User=$username State=$STATE Type=$TYPE" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
-
-      if [ "$STATE" = "active" ] && ([ "$TYPE" = "x11" ] || [ "$TYPE" = "wayland" ]) && [ -n "$username" ]; then
-        if [ -S "/run/user/$user_uid/bus" ]; then
-          echo "Attempting notification to $username (UID=$user_uid)" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
-
-          # Set DISPLAY and WAYLAND_DISPLAY based on session type
-          DISPLAY_VAL=":0"
-          WAYLAND_VAL="wayland-0"
-          if [ "$TYPE" = "x11" ]; then
-            WAYLAND_VAL=""
-          fi
-
-          if ${pkgs.shadow}/bin/su - "$username" -c "DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/$user_uid/bus' DISPLAY='$DISPLAY_VAL' WAYLAND_DISPLAY='$WAYLAND_VAL' ${pkgs.libnotify}/bin/notify-send --urgency=critical -a 'NixOS Upgrade' '$TITLE' '$MESSAGE'" \
-            2>&1 | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user; then
-            echo "Notification sent successfully" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
-            NOTIFIED=1
-          else
-            echo "notify-send failed with exit code $?" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
-          fi
-        fi
-      fi
-    done < <(${pkgs.systemd}/bin/loginctl list-sessions --no-legend 2>/dev/null)
+      DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$user_uid/bus" \
+      DISPLAY=":0" \
+      WAYLAND_DISPLAY="wayland-0" \
+      ${pkgs.util-linux}/bin/su - "$username" -c \
+        "${pkgs.libnotify}/bin/notify-send \
+          --urgency=critical \
+          --expire-time=0 \
+          -a 'NixOS Upgrade' \
+          '$TITLE' '$MESSAGE'" 2>&1 && NOTIFIED=1
+    done
 
     if [ $NOTIFIED -eq 0 ]; then
-      echo "All notifications failed, using wall fallback" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
-      echo "NixOS Upgrade: $MESSAGE" | ${pkgs.util-linux}/bin/wall
+      echo "No active GUI sessions found, using wall fallback"
+      echo "$MESSAGE" | ${pkgs.util-linux}/bin/wall
+    else
+      echo "Notification sent successfully"
     fi
   '';
 in
