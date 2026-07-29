@@ -89,13 +89,13 @@ in
     };
 
     preStart = ''
-      ${notify-any-user} "NixOS Upgrade" "Auto-upgrade starting"
+      ${notifyAnyUser} "NixOS Upgrade" "Auto-upgrade starting"
     '';
 
     postStop = ''
       TIMESTAMP=$(${pkgs.coreutils}/bin/date '+%Y-%m-%d %H:%M:%S')
       REBOOT_STATUS=$(if ${pkgs.diffutils}/bin/diff <(readlink /run/booted-system/{initrd,kernel,kernel-modules}) <(readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules}) >/dev/null 2>&1; then echo "✓ No reboot needed"; else echo "↻ Reboot needed"; fi)
-      ${notify-any-user} "NixOS Upgrade" "Completed at $TIMESTAMP\n$REBOOT_STATUS"
+      ${notifyAnyUser} "NixOS Upgrade" "Completed at $TIMESTAMP\n$REBOOT_STATUS"
     '';
   };
 }
