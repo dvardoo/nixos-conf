@@ -26,6 +26,6 @@
   # Common desktop packages
   environment.systemPackages = with pkgs; [
     stirling-pdf-desktop
-
+    libnotify
   ];
 }
