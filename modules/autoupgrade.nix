@@ -1,65 +1,68 @@
 { pkgs, ... }:
 
 let
-  notify-any-user = pkgs.writeShellScript "notify-any-user" ''
+  notifyAnyUser = pkgs.writeShellScript "notify-any-user" ''
+    set -eu
+
     TITLE="$1"
     MESSAGE="$2"
 
-    NOTIFIED_FILE=$(${pkgs.coreutils}/bin/mktemp)
-    echo 0 > "$NOTIFIED_FILE"
+    log() {
+      echo "notify-any-user: $*" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p info
+    }
 
-    echo "notify-any-user: Starting notification process" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p info
+    warn() {
+      echo "notify-any-user: $*" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p warning
+    }
 
-    ${pkgs.systemd}/bin/loginctl list-sessions | awk 'NR > 1 && $6 == "user" {print $2, $3}' | while read -r USER_UID USERNAME; do
-      if [ -n "$USER_UID" ] && [ "$USER_UID" -gt 0 ]; then
-        echo "notify-any-user: Found user session - $USERNAME (UID=$USER_UID)" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p info
+    TMP_SESSIONS="$(${pkgs.coreutils}/bin/mktemp)"
+    TMP_SENT="$(${pkgs.coreutils}/bin/mktemp)"
+    trap '${pkgs.coreutils}/bin/rm -f "$TMP_SESSIONS" "$TMP_SENT"' EXIT
 
-        # Get session ID
-        SESSION_ID=$(${pkgs.systemd}/bin/loginctl list-sessions | awk -v uid="$USER_UID" '$2 == uid {print $1; exit}')
-        echo "notify-any-user: Session ID for $USERNAME: $SESSION_ID" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p info
+    : > "$TMP_SENT"
 
-        SESSION_INFO=$(${pkgs.systemd}/bin/loginctl show-session -p Display,WaylandDisplay --value "$SESSION_ID")
-        DISPLAY=$(echo "$SESSION_INFO" | head -1)
-        WAYLAND_DISPLAY=$(echo "$SESSION_INFO" | tail -1)
+    ${pkgs.systemd}/bin/loginctl list-sessions --no-legend --no-pager \
+      | ${pkgs.gawk}/bin/awk '$2 ~ /^[0-9]+$/ && $3 != "" { print $1, $2, $3 }' \
+      > "$TMP_SESSIONS"
 
-        echo "notify-any-user: Raw session info: $SESSION_INFO" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p debug
-        echo "notify-any-user: DISPLAY=$DISPLAY, WAYLAND_DISPLAY=$WAYLAND_DISPLAY" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p debug
+    ${pkgs.gawk}/bin/awk '!seen[$2]++ { print $1, $2, $3 }' "$TMP_SESSIONS" | while read -r SESSION_ID USER_UID USERNAME; do
+      [ -n "$SESSION_ID" ] || continue
+      [ -n "$USER_UID" ] || continue
+      [ -n "$USERNAME" ] || continue
 
-        [ -z "$DISPLAY" ] && DISPLAY=":0"
-        [ -z "$WAYLAND_DISPLAY" ] && WAYLAND_DISPLAY="wayland-0"
+      RUNTIME_DIR="/run/user/$USER_UID"
+      BUS="$RUNTIME_DIR/bus"
 
-        echo "notify-any-user: After defaults - DISPLAY=$DISPLAY, WAYLAND_DISPLAY=$WAYLAND_DISPLAY" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p debug
+      log "checking session=$SESSION_ID user=$USERNAME uid=$USER_UID"
 
-        DBUS_ADDR="unix:path=/run/user/$USER_UID/bus"
-        echo "notify-any-user: Using DBUS address: $DBUS_ADDR" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p debug
+      [ -d "$RUNTIME_DIR" ] || { warn "skip $USERNAME: missing $RUNTIME_DIR"; continue; }
+      [ -S "$BUS" ] || { warn "skip $USERNAME: missing $BUS"; continue; }
 
-        NOTIFY_OUTPUT=$(DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" \
-          XDG_RUNTIME_DIR="/run/user/$USER_UID" \
-          DISPLAY="$DISPLAY" \
-          WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
-          ${pkgs.util-linux}/bin/runuser -u "$USERNAME" -- \
-            ${pkgs.libnotify}/bin/notify-send -t 0 -a 'NixOS Upgrade' "$TITLE" "$MESSAGE" 2>&1)
+      DISPLAY="$(${pkgs.systemd}/bin/loginctl show-session "$SESSION_ID" -p Display --value 2>/dev/null || true)"
+      WAYLAND_DISPLAY="$(${pkgs.systemd}/bin/loginctl show-session "$SESSION_ID" -p WaylandDisplay --value 2>/dev/null || true)"
 
-        NOTIFY_EXIT=$?
-        echo "notify-any-user: notify-send exit code: $NOTIFY_EXIT" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p info
+      export XDG_RUNTIME_DIR="$RUNTIME_DIR"
+      export DBUS_SESSION_BUS_ADDRESS="unix:path=$BUS"
 
-        if [ $NOTIFY_EXIT -eq 0 ]; then
-          echo "notify-any-user: notify-send output: $NOTIFY_OUTPUT" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p info
-          echo 1 > "$NOTIFIED_FILE"
-        else
-          echo "notify-any-user: notify-send FAILED - output: $NOTIFY_OUTPUT" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p err
-        fi
+      [ -n "$DISPLAY" ] && export DISPLAY
+      [ -n "$WAYLAND_DISPLAY" ] && export WAYLAND_DISPLAY
+
+      if ${pkgs.util-linux}/bin/runuser -u "$USERNAME" -- ${pkgs.libnotify}/bin/notify-send -a "NixOS Upgrade" "$TITLE" "$MESSAGE" >/dev/null 2>&1; then
+        log "notify-send succeeded for $USERNAME"
+        echo 1 > "$TMP_SENT"
+      else
+        warn "notify-send failed for $USERNAME"
       fi
     done
 
-    NOTIFIED=$(cat "$NOTIFIED_FILE")
-    ${pkgs.coreutils}/bin/rm "$NOTIFIED_FILE"
+    if ! echo "$MESSAGE" | ${pkgs.util-linux}/bin/wall >/dev/null 2>&1; then
+      warn "wall failed"
+    fi
 
-    if [ "$NOTIFIED" -eq 0 ]; then
-      echo "notify-any-user: No active GUI sessions found, using wall fallback" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p warning
-      echo "$MESSAGE" | ${pkgs.util-linux}/bin/wall
+    if [ "$(${pkgs.coreutils}/bin/cat "$TMP_SENT")" = "1" ]; then
+      log "at least one desktop notification succeeded"
     else
-      echo "notify-any-user: Notification sent successfully" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user -p info
+      warn "no desktop notification succeeded"
     fi
   '';
 in
