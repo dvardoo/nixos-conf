@@ -5,11 +5,9 @@ let
   notify-any-user = pkgs.writeShellScript "notify-any-user" ''
     TITLE="$1"
     MESSAGE="$2"
-    NOTIFIED=0
 
-    # Find user systemd processes and extract D-Bus address
-    for pid in $(${pkgs.procps}/bin/ps aux | ${pkgs.gnugrep}/bin/grep -E '[s]ystemd.*--user' | ${pkgs.awk}/bin/awk '{print $2}'); do
-      # Extract DBUS_SESSION_BUS_ADDRESS from process environment
+    # Try to send D-Bus notification to any logged-in user
+    for pid in $(${pkgs.procps}/bin/pgrep -u 1000-9999 -f "systemd --user" 2>/dev/null); do
       DBUS_ADDR=$(${pkgs.util-linux}/bin/cat /proc/$pid/environ 2>/dev/null | \
         ${pkgs.coreutils}/bin/tr '\0' '\n' | \
         ${pkgs.gnugrep}/bin/grep '^DBUS_SESSION_BUS_ADDRESS=' | \
@@ -30,14 +28,12 @@ let
           string:"$MESSAGE" \
           array:string: \
           dict:string:variant:urgency,byte:1 \
-          int32:5000 2>/dev/null && NOTIFIED=1
+          int32:5000 2>/dev/null && exit 0
       fi
     done
 
-    # Fallback to wall if no D-Bus notifications sent
-    if [ $NOTIFIED -eq 0 ]; then
-      ${pkgs.util-linux}/bin/wall "$TITLE: $MESSAGE"
-    fi
+    # Fallback to wall
+    ${pkgs.util-linux}/bin/wall "⚠ $TITLE: $MESSAGE"
   '';
 in
 
