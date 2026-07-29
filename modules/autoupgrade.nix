@@ -5,24 +5,32 @@ let
     TITLE="$1"
     MESSAGE="$2"
 
+    echo "notify-any-user called: $TITLE / $MESSAGE"
+
     NOTIFIED=0
 
-    ${pkgs.systemd}/bin/loginctl list-sessions --output=json | \
-    ${pkgs.jq}/bin/jq -r '.[] | select(.state=="active") | select(.type=="x11" or .type=="wayland") | "\(.user):\(.uid)"' | \
-    while IFS=: read -r username user_uid; do
-      [ -z "$username" ] && continue
+    ${pkgs.systemd}/bin/loginctl list-sessions | tail -n +2 | while read -r LINE; do
+      [ -z "$LINE" ] && continue
 
-      echo "Attempting notification to $username (UID=$user_uid)"
+      SESSION_ID=$(echo "$LINE" | awk '{print $1}')
+      USER_UID=$(echo "$LINE" | awk '{print $2}')
+      USERNAME=$(echo "$LINE" | awk '{print $3}')
+      CLASS=$(echo "$LINE" | awk '{print $6}')
 
-      DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$user_uid/bus" \
-      DISPLAY=":0" \
-      WAYLAND_DISPLAY="wayland-0" \
-      ${pkgs.util-linux}/bin/su - "$username" -c \
-        "${pkgs.libnotify}/bin/notify-send \
-          --urgency=critical \
-          --expire-time=0 \
-          -a 'NixOS Upgrade' \
-          '$TITLE' '$MESSAGE'" 2>&1 && NOTIFIED=1
+      # Skip inactive sessions and non-user sessions
+      if [ "$CLASS" = "user" ] || [ "$CLASS" = "manager" ]; then
+        echo "Session $SESSION_ID: User=$USERNAME UID=$USER_UID Class=$CLASS"
+
+        if [ -n "$USER_UID" ] && [ "$USER_UID" -gt 0 ]; then
+          echo "Attempting notification to $USERNAME (UID=$USER_UID)"
+
+          DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USER_UID/bus" \
+          DISPLAY=":0" \
+          WAYLAND_DISPLAY="wayland-0" \
+          ${pkgs.util-linux}/bin/su - "$USERNAME" -c \
+            "${pkgs.libnotify}/bin/notify-send --urgency=critical --expire-time=0 -a 'NixOS Upgrade' '$TITLE' '$MESSAGE'" 2>&1 && NOTIFIED=1
+        fi
+      fi
     done
 
     if [ $NOTIFIED -eq 0 ]; then
