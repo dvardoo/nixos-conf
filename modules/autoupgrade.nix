@@ -39,8 +39,8 @@ let
       echo "All notifications failed, using wall fallback" | ${pkgs.systemd}/bin/systemd-cat -t notify-any-user
       echo "NixOS Upgrade: $MESSAGE" | ${pkgs.util-linux}/bin/wall
     fi
-in
   '';
+in
 
 {
   system.autoUpgrade = {
