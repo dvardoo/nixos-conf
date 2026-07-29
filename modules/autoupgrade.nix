@@ -11,8 +11,14 @@ let
         ${pkgs.gnugrep}/bin/grep -z "DBUS_SESSION_BUS_ADDRESS" | \
         ${pkgs.gnugrep}/bin/grep -o "unix:path=[^[:space:]]*")
 
-      if [ -n "$DBUS_ADDR" ] && [ -S "''${DBUS_ADDR#unix:path=}" ]; then
+      DISPLAY=$(${pkgs.util-linux}/bin/cat /proc/$pid/environ 2>/dev/null | \
+        ${pkgs.gnugrep}/bin/grep -z "^DISPLAY=" | \
+        ${pkgs.gnugrep}/bin/grep -o "=[^[:space:]]*" | \
+        ${pkgs.coreutils}/bin/cut -c2-)
+
+      if [ -n "$DBUS_ADDR" ] && [ -S "''${DBUS_ADDR#unix:path=}" ] && [ -n "$DISPLAY" ]; then
         DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" \
+        DISPLAY="$DISPLAY" \
         ${pkgs.libnotify}/bin/notify-send "$TITLE" "$MESSAGE" 2>/dev/null && \
         exit 0
       fi
