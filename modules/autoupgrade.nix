@@ -1,6 +1,5 @@
 { pkgs, ... }:
 
-
 let
   notify-any-user = pkgs.writeShellScript "notify-any-user" ''
     TITLE="$1"
