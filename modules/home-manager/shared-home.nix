@@ -32,6 +32,7 @@
 
       # Tools
       hashcat
+      seclists
       hcxtools
       nmap
       exploitdb
