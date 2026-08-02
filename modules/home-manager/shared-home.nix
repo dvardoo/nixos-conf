@@ -7,7 +7,7 @@
     #./browsers.nix
     ./keepassxc.nix
     #./keepassxc-wrapped.nix
-    ./notifications.nix
+    #./break-reminders.nix
     ./update-service.nix
     #../stylix.nix
     ./alacritty.nix
