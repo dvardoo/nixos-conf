@@ -80,6 +80,7 @@ in
       "--cores" "2"
     ];
     persistent = true;
+    operation = "boot";
   };
 
   systemd.services.nixos-upgrade = {
