@@ -6,10 +6,11 @@
     package = pkgs.niri;
   };
 
-  environment.systemPackages = [
-    pkgs.noctalia-shell
-    pkgs.alacritty
-    pkgs.fuzzel
+  environment.systemPackages =  with pkgs; [
+    #noctalia-shell
+    noctalia
+    alacritty
+    fuzzel
   ];
 
   home-manager.users.dvardo = {
