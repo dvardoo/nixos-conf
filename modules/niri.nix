@@ -74,10 +74,10 @@
           "Mod+Down"   { focus-window-down; }
 
           // Window management
-          "Mod+Shift+Left"  { move-column-left; }
-          "Mod+Shift+Right" { move-column-right; }
-          "Mod+Shift+Up"    { move-window-up; }
-          "Mod+Shift+Down"  { move-window-down; }
+          "Mod+Ctrl+Left"  { move-column-left; }
+          "Mod+Ctrl+Right" { move-column-right; }
+          "Mod+Ctrl+Up"    { move-window-up; }
+          "Mod+Ctrl+Down"  { move-window-down; }
 
           // Stacks & Layout
           "Mod+S" { toggle-column-tabbed-display; }
@@ -86,15 +86,14 @@
           "Mod+W" { toggle-column-tabbed-display; }
 
           // Workspaces
+          "Mod+Shift+Up" { focus-workspace-up; }
+          "Mod+Shift+Down" { focus-workspace-down; }
           "Mod+1" { focus-workspace 1; }
           "Mod+2" { focus-workspace 2; }
           "Mod+3" { focus-workspace 3; }
           "Mod+Shift+1" { move-column-to-workspace 1; }
           "Mod+Shift+2" { move-column-to-workspace 2; }
           "Mod+Shift+3" { move-column-to-workspace 3; }
-          "Mod+Ctrl+1" { move-column-to-workspace 1; }
-          "Mod+Ctrl+2" { move-column-to-workspace 2; }
-          "Mod+Ctrl+3" { move-column-to-workspace 3; }
 
           // Column/Window adjustments
           "Mod+Minus" { set-column-width "-10%"; }
