@@ -16,7 +16,7 @@
   home-manager.users.dvardo = {
     xdg.configFile."niri/config.kdl".text = ''
       // Startup
-      spawn-at-startup "noctalia-shell"
+      spawn-at-startup "noctalia"
 
       input {
           keyboard {
