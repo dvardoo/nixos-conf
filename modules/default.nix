@@ -17,7 +17,7 @@
       ./autoupgrade.nix
       ./amdrocm.nix
       ./llm.nix
-      ./stylix.nix
+      #./stylix.nix
       ./overlays.nix
       ./zerotier.nix
     ];
