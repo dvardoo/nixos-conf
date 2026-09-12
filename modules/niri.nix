@@ -107,6 +107,7 @@
 
           // System
           "Mod+O" { toggle-overview; }
+          "Mod+Escape" { spawn "noctalia" "msg" "session" "lock"; }
       }
     '';
   };
