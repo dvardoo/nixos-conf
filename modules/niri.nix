@@ -1,6 +1,17 @@
 { pkgs, ... }:
 
 {
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        #command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri";
+        command = "${pkgs.regreet}/bin/regreet";
+        user = "greeter";
+      };
+    };
+  };
+
   programs.niri = {
     enable = true;
     package = pkgs.niri;
