@@ -20,6 +20,7 @@
   environment.systemPackages =  with pkgs; [
     #noctalia-shell
     noctalia
+    xwayland-satellite
     alacritty
     fuzzel
   ];
