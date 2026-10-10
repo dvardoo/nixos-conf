@@ -4,7 +4,13 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../modules/default.nix
+      ../../profiles/default.nix
+
+      # Standalone
+      ../../modules/standalone/gaming.nix
+      ../../modules/standalone/amdrocm.nix
+      ../../modules/standalone/llm.nix
+      ../../modules/standalone/zerotier.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 

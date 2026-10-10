@@ -4,8 +4,10 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../modules/default.nix
-      #../../modules/laptop-power.nix
+      ../../profiles/default.nix
+
+      # Standalone
+      ../../modules/standalone/amdrocm.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 

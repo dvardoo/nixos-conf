@@ -4,13 +4,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../modules/default-server.nix
-      #../../modules/user.nix
-      #../../modules/shell.nix
-      #../../modules/common.nix
-      #../../modules/ssh.nix
-      #../../modules/qemu-guest-agent.nix
-      #../../modules/gc.nix
+      ../../profiles/default-server.nix
       #inputs.home-manager.nixosModules.default
     ];
 

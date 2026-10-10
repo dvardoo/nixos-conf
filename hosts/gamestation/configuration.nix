@@ -4,14 +4,17 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../modules/user.nix
-      ../../modules/shell.nix
-      ../../modules/common.nix
-      #../../modules/workstations.nix
-      #../../modules/gaming.nix
-      ../../modules/ssh.nix
-      ../../modules/gc.nix
-      ../../modules/stylix.nix
+      # System
+      ../../modules/shared/system/user.nix
+      ../../modules/shared/system/shell.nix
+      ../../modules/shared/system/common.nix
+      ../../modules/shared/system/gc.nix
+
+      # Services
+      ../../modules/shared/services/ssh.nix
+
+      # UI
+      ../../modules/shared/ui/stylix.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 

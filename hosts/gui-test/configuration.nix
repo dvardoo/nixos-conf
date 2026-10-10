@@ -4,7 +4,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../modules/default-lite.nix
+      ../../profiles/default-lite.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 
