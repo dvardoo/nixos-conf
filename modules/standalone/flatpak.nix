@@ -4,7 +4,8 @@
   services.flatpak.enable = true;
 
   environment.systemPackages = with pkgs; [
-    cosmic-store
+    #cosmic-store
+    gnome-software
   ];
 
   # Add Flathub remote
