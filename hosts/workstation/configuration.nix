@@ -11,6 +11,7 @@
       ../../modules/standalone/amdrocm.nix
       ../../modules/standalone/llm.nix
       ../../modules/standalone/zerotier.nix
+      ../../modules/standalone/flatpak.nix
       #inputs.home-manager-unstable.nixosModules.default
     ];
 
