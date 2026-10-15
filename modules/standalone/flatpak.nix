@@ -5,7 +5,8 @@
 
   environment.systemPackages = with pkgs; [
     #cosmic-store
-    gnome-software
+    #gnome-software
+    bazaar
   ];
 
   # Add Flathub remote
