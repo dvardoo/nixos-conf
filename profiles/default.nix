@@ -19,7 +19,7 @@
       # UI
       ../modules/shared/ui/cosmic.nix
       #../modules/shared/ui/niri.nix
-      ../modules/shared/ui/stylix.nix
+      ../modules/shared/ui/stylix-cosmic-theme-toggle.nix
     ];
 
 }

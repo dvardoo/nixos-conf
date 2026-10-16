@@ -40,8 +40,8 @@ in
 {
   stylix = {
     enable = true;
-    polarity = "light";
-    base16Scheme = lightTheme;
+    polarity = "dark";
+    base16Scheme = darkTheme;
 
     # Not working for COSMIC
     #image = ../assets/kanagawa/kanagawa-lotus.jpg;
@@ -58,11 +58,11 @@ in
   home-manager.users.dvardo.xdg.configFile."gtk-4.0/gtk.css".force = true;
 
   specialisation = {
-    dark = {
+    light = {
       inheritParentConfig = true;
       configuration = {
-        stylix.polarity = lib.mkForce "dark";
-        stylix.base16Scheme = lib.mkForce darkTheme;
+        stylix.polarity = lib.mkForce "light";
+        stylix.base16Scheme = lib.mkForce lightTheme;
 
         # Not working for COSMIC
         #stylix.image = lib.mkForce ../assets/kanagawa/kanagawa-wave.jpg;
