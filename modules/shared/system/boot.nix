@@ -4,8 +4,6 @@
   boot = {
   # silence first boot output
     consoleLogLevel = 3;
-    initrd.verbose = false;
-    initrd.systemd.enable = true;
     kernelParams = [
         "quiet"
         "splash"
