@@ -14,6 +14,7 @@
       ../modules/shared/services/ssh.nix
       ../modules/shared/services/autoupgrade.nix
       ../modules/shared/services/qemu-guest-agent.nix
+      ../modules/shared/services/podman.nix
     ];
 
 }

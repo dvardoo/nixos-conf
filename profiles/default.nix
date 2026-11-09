@@ -16,6 +16,7 @@
 
       # Services
       ../modules/shared/services/autoupgrade.nix
+      ../modules/shared/services/podman.nix
       # UI
       ../modules/shared/ui/cosmic.nix
       #../modules/shared/ui/niri.nix
