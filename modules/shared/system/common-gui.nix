@@ -25,7 +25,7 @@
 
   # Common desktop packages
   environment.systemPackages = with pkgs; [
-    stirling-pdf-desktop
+    #stirling-pdf-desktop # Causes slow rebuilds
     libnotify
   ];
 }

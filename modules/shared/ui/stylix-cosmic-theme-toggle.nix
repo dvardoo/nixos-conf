@@ -47,6 +47,7 @@ in
     #image = ../assets/kanagawa/kanagawa-lotus.jpg;
     targets.gnome.enable = false;
     targets.gtk.enable = false;
+    targets.gtksourceview.enable = false; # Try to fix slow rebuilds https://github.com/nix-community/stylix/issues/2223
   };
 
   environment.systemPackages = [

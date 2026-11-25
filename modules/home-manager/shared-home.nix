@@ -16,6 +16,7 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
+  stylix.targets.gtksourceview.enable = false; # Try to fix slow rebuilds https://github.com/nix-community/stylix/issues/2223
 
   home = {
     username = "dvardo";
